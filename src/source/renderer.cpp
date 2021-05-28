@@ -2,6 +2,7 @@
 #include "math.h"
 
 #include "headers/renderer.h"
+#include "headers/entity.h"
 
 Renderer::Renderer(int nScreenWidth, int nScreenHeight, float fFOV, Map map) {
     this->nScreenWidth = nScreenWidth;
@@ -17,7 +18,7 @@ Renderer::Renderer(int nScreenWidth, int nScreenHeight, float fFOV, Map map) {
 	this->dwBytesWritten = 0;
 }
 
-Renderer::render(Player player) {
+Renderer::render(Player player, Mobs mobs) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
         float fRayAngle = (player.fPlayerA - this->fFOV / 2.f) + ((float) x / (float) this->nScreenHeight) * this->fFOV;
@@ -39,7 +40,7 @@ Renderer::render(Player player) {
                 bHitWall = true;
                 fDistanceToWall = fDepth;
             } else // Ray inbounds
-                if (map.smap[nTestY * this->map.nMapWidth + nTestX] != '.')
+                if (this->map.s_map[nTestY * this->map.nMapWidth + nTestX] != '.')
                     bHitWall = true;
 
             int nCeiling = (float) (this->nScreenHeight / 2) - this->nScreenHeight / (float) fDistanceToWall;

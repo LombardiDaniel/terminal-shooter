@@ -1,9 +1,10 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include "headers/entity.h"
+
 #include <Windows.h>
 #include <iostream>
-
 
 class Renderer {
 private:
