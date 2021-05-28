@@ -10,4 +10,4 @@ clean:
 	rm *.o output
 
 
-# oth: g++ main.cpp renderer.cpp -o TermShooter.exe
+# oth: g++ main.cpp engine.cpp -o .\..\TermShooter.exe

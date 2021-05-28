@@ -1,13 +1,14 @@
 #include <Windows.h>
+#include <chrono>
 #include "math.h"
 
 #include "headers/entity.h"
-#include "headers/renderer.h"
+#include "headers/engine.h"
 #include "headers/player.h"
 #include "headers/mobs.h"
 
 
-Renderer::Renderer(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map) {
+Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map) {
     this->nScreenWidth = nScreenWidth;
     this->nScreenHeight = nScreenHeight;
     this->map = map;
@@ -26,7 +27,7 @@ Renderer::Renderer(unsigned int nScreenWidth, unsigned int nScreenHeight, float 
 }
 
 
-void Renderer::render(Player player, Mob mobs) {
+void Engine::render(Player player, Mob mobs) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
         float fRayAngle = (player.pos.a - this->fFOV / 2.f) + ((float) x / (float) this->nScreenWidth) * this->fFOV;
@@ -57,13 +58,13 @@ void Renderer::render(Player player, Mob mobs) {
         }
 
         // 3D illusion
-        int nCeiling = (float)(this->nScreenHeight/2.0) - this->nScreenHeight / ((float)fDistanceToWall);
+        int nCeiling = (float)(this->nScreenHeight / 2.0) - this->nScreenHeight / ((float)fDistanceToWall);
 		int nFloor = this->nScreenHeight - nCeiling;
 
         // Shading
         for (int y = 0; y < (int) this->nScreenHeight; y++) {
             if (y <= nCeiling)
-                this->screen[y * this->nScreenWidth + x] = ' ';
+                this->screen[y * this->nScreenWidth + x] = ',';
             else if (y > nCeiling && y <= nFloor)
                 this->screen[y * this->nScreenWidth + x] = '#';
             else
@@ -75,15 +76,65 @@ void Renderer::render(Player player, Mob mobs) {
 
 }
 
-void Renderer::_outputFrame() {
+void Engine::_outputFrame() {
 
     this->screen[this->nScreenWidth * this->nScreenHeight - 1] = '\0';
     WriteConsoleOutputCharacter(
         this->hConsole,
-        (const char*) this->screen,
+        (char*) this->screen,
         this->nScreenWidth * this->nScreenHeight,
         {0,0},
         &this->dwBytesWritten
     );
+
+}
+
+void Engine::capture_inputs(Player& player) {
+
+    float fSpeed = 5.0f;
+
+    if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
+		player.pos.a -= (fSpeed * 0.75f) * this->fElapsedTime;
+
+	// Handle CW Rotation
+	if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
+		player.pos.a += (fSpeed * 0.75f) * this->fElapsedTime;
+
+
+    // // Handle Left movement & collision
+	// if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
+	// {
+	// 	player.pos.a += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+	// 	player.pos.a += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+	// 	if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
+	// 	{
+	// 		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+	// 		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+	// 	}
+	// }
+
+
+	// Handle Forwards movement & collision
+	if (GetAsyncKeyState((unsigned short)'W') & 0x8000) {
+		player.pos.a += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+		player.pos.a += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
+		{
+			player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+			player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		}
+	}
+
+	// Handle backwards movement & collision
+	if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
+	{
+		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
+		{
+			player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+			player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		}
+	}
 
 }

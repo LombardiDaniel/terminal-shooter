@@ -11,16 +11,16 @@
 
 #define F_RAY_STEP_SIZE 0.1
 
-class Renderer {
+class Engine {
 private:
-    unsigned int nScreenWidth;		// Console Screen Size X (columns)
-    unsigned int nScreenHeight;		// Console Screen Size Y (rows)
-
     float fDepth;
     float fFOV;
-    
+
     Map map;
 
+    // Rendering related:
+    unsigned int nScreenWidth;		// Console Screen Size X (columns)
+    unsigned int nScreenHeight;		// Console Screen Size Y (rows)
     wchar_t* screen;
 	HANDLE hConsole;
 	DWORD dwBytesWritten;
@@ -28,9 +28,13 @@ private:
     void _outputFrame();
 
 public:
-    Renderer(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
+    float fElapsedTime;
+
+    Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
     void render(Player player, Mob mobs);
 
+
+    void capture_inputs(Player& player);
 
 };
 
