@@ -11,9 +11,9 @@
 
 class Renderer {
 private:
-    int nScreenWidth;		// Console Screen Size X (columns)
-    int nScreenHeight;		// Console Screen Size Y (rows)
-    int fDepth;
+    unsigned int nScreenWidth;		// Console Screen Size X (columns)
+    unsigned int nScreenHeight;		// Console Screen Size Y (rows)
+    unsigned int fDepth;
     float fFOV;
     // std::wstring map;
     Map map;
