@@ -2,6 +2,9 @@
 #define RENDERER_H
 
 #include "entity.h"
+#include "map.h"
+#include "player.h"
+#include "mobs.h"
 
 #include <Windows.h>
 #include <iostream>
@@ -20,8 +23,8 @@ private:
 	DWORD dwBytesWritten;
 
 public:
-    Renderer();
-    void render();
+    Renderer(int nScreenWidth, int nScreenHeight, float fFOV, Map map);
+    void render(Player player, Mob mobs);
 
 
 };

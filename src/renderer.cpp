@@ -1,8 +1,11 @@
 #include <Windows.h>
 #include "math.h"
 
-#include "headers/renderer.h"
 #include "headers/entity.h"
+#include "headers/renderer.h"
+#include "headers/player.h"
+#include "headers/mobs.h"
+
 
 Renderer::Renderer(int nScreenWidth, int nScreenHeight, float fFOV, Map map) {
     this->nScreenWidth = nScreenWidth;
@@ -14,14 +17,14 @@ Renderer::Renderer(int nScreenWidth, int nScreenHeight, float fFOV, Map map) {
     // Create Screen Buffer
 	this->screen = new wchar_t[nScreenWidth*nScreenHeight];
 	this->hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
-	std::SetConsoleActiveScreenBuffer(this->hConsole);
+	SetConsoleActiveScreenBuffer(this->hConsole);
 	this->dwBytesWritten = 0;
 }
 
-Renderer::render(Player player, Mobs mobs) {
+void Renderer::render(Player player, Mob mobs) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
-        float fRayAngle = (player.fPlayerA - this->fFOV / 2.f) + ((float) x / (float) this->nScreenHeight) * this->fFOV;
+        float fRayAngle = (player.pos.a - this->fFOV / 2.f) + ((float) x / (float) this->nScreenHeight) * this->fFOV;
 
         float fDistanceToWall = 0;
 
@@ -32,8 +35,8 @@ Renderer::render(Player player, Mobs mobs) {
         while(!bHitWall) {
             fDistanceToWall += 0.1f;
 
-            int nTestX = (int)(fPlayerA + fEyeX * fDistanceToWall);
-            int nTestY = (int)(fPlayerA + fEyeY * fDistanceToWall);
+            int nTestX = (int)(player.pos.a + fEyeX * fDistanceToWall);
+            int nTestY = (int)(player.pos.a + fEyeY * fDistanceToWall);
 
             // Ray out of bounds
             if (nTestX < 0 || nTestX >= this->map.nMapWidth || nTestY < 0 || nTestY >= this->map.nMapHeight) {
