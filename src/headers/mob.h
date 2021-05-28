@@ -12,7 +12,7 @@ class Mob {
 // ex:
 //
 // union {
-//     struct S { // 8 bits = 1 byte
+//     struct { // 8 bits = 1 byte
 //         char unused : 1;
 //         char sw2 : 1;
 //         char sw1 : 1;
@@ -20,4 +20,4 @@ class Mob {
 //         char value : 3;
 //     };
 //     char reg; // 1 byte
-// }
+// } MyBitField;
