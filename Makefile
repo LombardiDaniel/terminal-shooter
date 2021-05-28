@@ -8,3 +8,6 @@ compiled/main.o: main.cpp source/renderer.cpp
 
 clean:
 	rm *.o output
+
+
+# oth: g++ main.cpp renderer.cpp -o TermShooter.exe
