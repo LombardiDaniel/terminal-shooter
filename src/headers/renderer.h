@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include "headers/entity.h"
+#include "entity.h"
 
 #include <Windows.h>
 #include <iostream>
