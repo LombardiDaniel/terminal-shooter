@@ -65,16 +65,19 @@ void Engine::render(Player player, Mob mobs) {
         for (int y = 0; y < (int) this->nScreenHeight; y++) {
             if (y <= nCeiling)
                 this->screen[y * this->nScreenWidth + x] = ' ';
-            else if (y > nCeiling && y <= nFloor) {
-                this->screen[y * this->nScreenWidth + x] = 178;
-
-                if (fDistanceToWall <= this->fDepth / 4)            this->screen[y * nScreenWidth + x] = 219; // perto
-                else if (fDistanceToWall <= this->fDepth / 3)       this->screen[y * nScreenWidth + x] = 178; // médio
-                else if (fDistanceToWall <= this->fDepth / 2)       this->screen[y * nScreenWidth + x] = 177; // longe
-                else                                                this->screen[y * nScreenWidth + x] = 176; // muito longe
-
-            } else
-                this->screen[y * this->nScreenWidth + x] = '.';
+            else if (y > nCeiling && y <= nFloor)
+                if (fDistanceToWall <= this->fDepth / 4)            this->screen[y * nScreenWidth + x] = 0xdb; // perto
+                else if (fDistanceToWall <= this->fDepth / 3)       this->screen[y * nScreenWidth + x] = 0xb2; // médio
+                else if (fDistanceToWall <= this->fDepth / 2)       this->screen[y * nScreenWidth + x] = 0xb1; // longe
+                else                                                this->screen[y * nScreenWidth + x] = 0xb0; // muito longe
+            else {
+                float b = 1.0f - (((float)y - this->nScreenHeight/2.0f) / ((float) this->nScreenHeight / 2.0f));
+                if (b < 0.4)		this->screen[y * nScreenWidth + x] = 0xf0;
+                else if (b < 0.45)	this->screen[y * nScreenWidth + x] = 0xcd;
+                else if (b < 0.7)	this->screen[y * nScreenWidth + x] = 0xc4;
+                else if (b < 0.9)	this->screen[y * nScreenWidth + x] = 0xfa;
+                else				this->screen[y * nScreenWidth + x] = ' ';
+            }
         }
     }
 
