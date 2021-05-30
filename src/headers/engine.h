@@ -21,7 +21,7 @@ private:
     // Rendering related:
     unsigned int nScreenWidth;		// Console Screen Size X (columns)
     unsigned int nScreenHeight;		// Console Screen Size Y (rows)
-    wchar_t* screen;
+    char* screen;
 	HANDLE hConsole;
 	DWORD dwBytesWritten;
 

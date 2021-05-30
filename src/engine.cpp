@@ -20,7 +20,7 @@ Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV
         this->fDepth = map.nMapHeight;
 
     // Create Screen Buffer
-	this->screen = new wchar_t[this->nScreenWidth*this->nScreenHeight];
+	this->screen = new char[this->nScreenWidth*this->nScreenHeight];
 	this->hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
 	SetConsoleActiveScreenBuffer(this->hConsole);
 	this->dwBytesWritten = 0;
@@ -64,7 +64,7 @@ void Engine::render(Player player, Mob mobs) {
         // Shading
         for (int y = 0; y < (int) this->nScreenHeight; y++) {
             if (y <= nCeiling)
-                this->screen[y * this->nScreenWidth + x] = ',';
+                this->screen[y * this->nScreenWidth + x] = ' ';
             else if (y > nCeiling && y <= nFloor)
                 this->screen[y * this->nScreenWidth + x] = '#';
             else
@@ -96,7 +96,7 @@ void Engine::capture_inputs(Player& player) {
     if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
 		player.pos.a -= (fSpeed * 0.75f) * this->fElapsedTime;
 
-	// Handle CW Rotation
+
 	if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
 		player.pos.a += (fSpeed * 0.75f) * this->fElapsedTime;
 
@@ -116,22 +116,19 @@ void Engine::capture_inputs(Player& player) {
 
 	// Handle Forwards movement & collision
 	if (GetAsyncKeyState((unsigned short)'W') & 0x8000) {
-		player.pos.a += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-		player.pos.a += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
-		{
+		player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
+		player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
 			player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 			player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
 		}
 	}
 
 	// Handle backwards movement & collision
-	if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
-	{
+	if (GetAsyncKeyState((unsigned short)'S') & 0x8000) {
 		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
-		{
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
 			player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 			player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
 		}

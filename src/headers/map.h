@@ -10,7 +10,7 @@ public:
     int nMapHeight;
     int nMapWidth;
 
-    std::wstring map;
+    std::string map;
 };
 
 #endif
