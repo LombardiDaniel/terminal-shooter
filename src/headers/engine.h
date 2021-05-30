@@ -23,6 +23,12 @@
 #define H_TEXTURE_FLOOR_VERY_FAR 0xfa
 #define H_TEXTURE_EMPTY 0xff
 
+// Commands
+#define C_WALK_FORWARD 'W'
+#define C_WALK_BACKWARD 'S'
+#define C_WALK_LEFT 'A'
+#define C_WALK_RIGHT 'D'
+
 
 
 class Engine {

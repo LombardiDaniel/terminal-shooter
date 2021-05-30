@@ -7,6 +7,7 @@
 #include "headers/entity.h"
 #include "headers/player.h"
 #include "headers/engine.h"
+#include "headers/utils.h"
 
 
 int main(int argc, char const *argv[]) {
@@ -38,7 +39,7 @@ int main(int argc, char const *argv[]) {
     player.pos.x = 8.f;
     player.pos.y = 8.f;
 
-    float fFov = 3.141592 / 4.0;
+    float fFov = utils::PI / 4.0;
 
     int nScreenW = 120;
     int nScreenH = 40;
