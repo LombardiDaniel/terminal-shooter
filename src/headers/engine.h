@@ -9,7 +9,21 @@
 #include "player.h"
 #include "mobs.h"
 
+// Ray step size, increase to increase performance at the cost of quality
 #define F_RAY_STEP_SIZE 0.1
+
+// ASCII Textures
+#define H_TEXTURE_WALL_CLOSE 0xdb
+#define H_TEXTURE_WALL_MEDIUM 0xb2
+#define H_TEXTURE_WALL_FAR 0xb1
+#define H_TEXTURE_WALL_VERY_FAR 0xb0
+#define H_TEXTURE_FLOOR_CLOSE 0xf0
+#define H_TEXTURE_FLOOR_MEDIUM 0xcd
+#define H_TEXTURE_FLOOR_FAR 0xc4
+#define H_TEXTURE_FLOOR_VERY_FAR 0xfa
+#define H_TEXTURE_EMPTY 0xff
+
+
 
 class Engine {
 private:
