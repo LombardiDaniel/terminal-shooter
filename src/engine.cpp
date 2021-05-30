@@ -65,9 +65,15 @@ void Engine::render(Player player, Mob mobs) {
         for (int y = 0; y < (int) this->nScreenHeight; y++) {
             if (y <= nCeiling)
                 this->screen[y * this->nScreenWidth + x] = ' ';
-            else if (y > nCeiling && y <= nFloor)
-                this->screen[y * this->nScreenWidth + x] = '#';
-            else
+            else if (y > nCeiling && y <= nFloor) {
+                this->screen[y * this->nScreenWidth + x] = 178;
+
+                if (fDistanceToWall <= this->fDepth / 4)            this->screen[y * nScreenWidth + x] = 219; // perto
+                else if (fDistanceToWall <= this->fDepth / 3)       this->screen[y * nScreenWidth + x] = 178; // médio
+                else if (fDistanceToWall <= this->fDepth / 2)       this->screen[y * nScreenWidth + x] = 177; // longe
+                else                                                this->screen[y * nScreenWidth + x] = 176; // muito longe
+
+            } else
                 this->screen[y * this->nScreenWidth + x] = '.';
         }
     }
