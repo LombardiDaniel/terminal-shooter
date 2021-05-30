@@ -7,4 +7,4 @@ Projeto de Algoritmos e Estruturas de Dados I - Inspirado por Wolfenstein 3D, DO
 - Pedro Freire Baleeiro
 
 ### Pseudo-Relatorio:
-Primeiro passo foi a adaptacao do renderizador.
+Primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização.
