@@ -1,13 +1,13 @@
 CPPFLAGS=-std=c++11
 
-TermShooter: compiled/main.o compiled/engine.o
-	g++ $(CPPFLAGS) compiled/main.o compiled/engine.o -o TermShooter.exe
+TermShooter.exe: main.o engine.o
+	g++ $(CPPFLAGS) main.o engine.o -o TermShooter.exe
 
-compiled/main.o: src/main.cpp src/engine.cpp
-	g++ $(CPPFLAGS) -c main.cpp src/engine.cpp
+main.o: src/main.cpp
+	g++ $(CPPFLAGS) -c src/main.cpp
 
-clean:
-	rm */**.o */**.exe
+engine.o: src/engine.cpp src/headers/engine.h
+	g++ $(CPPFLAGS) -c src/engine.cpp
 
-
+# This makefile is make for the `mingw32-make`, NOT for gnu-make
 # oth: g++ main.cpp engine.cpp -o .\..\TermShooter.exe
