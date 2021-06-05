@@ -110,20 +110,6 @@ void Engine::capture_inputs(Player& player) {
 	if (GetAsyncKeyState((unsigned short) C_LOOK_RIGHT) & 0x8000)
 		player.pos.a += (fSpeed * 0.75f) * this->fElapsedTime;
 
-
-    // // Handle Left movement & collision
-	// if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
-	// {
-	// 	player.pos.a += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-	// 	player.pos.a += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-	// 	if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#')
-	// 	{
-	// 		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-	// 		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-	// 	}
-	// }
-
-
 	// Handle Forwards movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_FORWARD) & 0x8000) {
 		player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
