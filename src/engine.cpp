@@ -53,7 +53,7 @@ void Engine::render(Player player, Mob mobs) {
                 fDistanceToWall = this->fDepth;
             } else {
                 // Ray inbounds
-                if (this->map.map[nTestY * this->map.nMapWidth + nTestX] == '#')
+                if (this->map.smap[nTestY * this->map.nMapWidth + nTestX] == '#')
                     bHitWall = true;
             }
         }
@@ -82,7 +82,23 @@ void Engine::render(Player player, Mob mobs) {
         }
     }
 
+    // this->_overlayFPS();
+    this->_overlayMap(player.pos);
     this->_outputFrame();
+
+}
+
+void Engine::_overlayFPS() {
+    std::snprintf(this->screen, 10, "FPS=%5.2f", 1.0f/this->fElapsedTime);
+}
+
+void Engine::_overlayMap(Position playerPos) {
+
+    for (unsigned short int x = 0; x < this->map.nMapWidth; x++)
+        for (unsigned short int y = 0; y < this->map.nMapHeight; y++)
+            this->screen[y * this->nScreenWidth + x] = this->map.smap[(this->map.nMapHeight - y - 1) * this->map.nMapWidth + x];
+
+    this->screen[(int)(this->map.nMapHeight - playerPos.y) * this->nScreenWidth + (int) playerPos.x] = 'P';
 
 }
 
@@ -114,7 +130,7 @@ void Engine::capture_inputs(Player& player) {
 	if (GetAsyncKeyState((unsigned short) C_WALK_FORWARD) & 0x8000) {
 		player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 		player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
 			player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 			player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
 		}
@@ -124,7 +140,7 @@ void Engine::capture_inputs(Player& player) {
 	if (GetAsyncKeyState((unsigned short) C_WALK_RIGHT) & 0x8000) {
 		player.pos.x += sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
 		player.pos.y += cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
 			player.pos.x -= sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
 			player.pos.y -= cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
 		}
@@ -134,7 +150,7 @@ void Engine::capture_inputs(Player& player) {
 	if (GetAsyncKeyState((unsigned short) C_WALK_LEFT) & 0x8000) {
 		player.pos.x += sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
 		player.pos.y += cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
 			player.pos.x -= sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
 			player.pos.y -= cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
 		}
@@ -144,7 +160,7 @@ void Engine::capture_inputs(Player& player) {
 	if (GetAsyncKeyState((unsigned short) C_WALK_BACKWARD) & 0x8000) {
 		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
-		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
 			player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 			player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
 		}

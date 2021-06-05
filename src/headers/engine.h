@@ -50,6 +50,8 @@ private:
 	DWORD dwBytesWritten;
 
     void _outputFrame();
+    void _overlayFPS();
+    void _overlayMap(Position pos);
 
 public:
     float fElapsedTime;

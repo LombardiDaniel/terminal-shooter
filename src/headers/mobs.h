@@ -3,8 +3,8 @@
 
 #include "entity.h"
 
-class Mob {
-
+class Mob : public Entity {
+    
 };
 
 #endif
