@@ -12,13 +12,13 @@
 
 int main(int argc, char const *argv[]) {
 
-    Map map;    
+    Map map;
 
     Player player;
 
-    player.pos.a = 0.f;
-    player.pos.x = 8.f;
-    player.pos.y = 8.f;
+    player.pos.a = - utils::PI / 2;
+    player.pos.x = 14.f;
+    player.pos.y = 14.5f;
 
     float fFov = utils::PI / 4.0;
 
