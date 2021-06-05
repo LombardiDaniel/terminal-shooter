@@ -24,13 +24,14 @@
 #define H_TEXTURE_EMPTY 0xff
 
 // Commands
-#define C_WALK_FORWARD 'W'
-#define C_WALK_BACKWARD 'S'
-#define C_WALK_LEFT 'A'
-#define C_WALK_RIGHT 'D'
-#define C_LOOK_LEFT VK_LEFT
-#define C_LOOK_RIGHT VK_RIGHT
-#define C_FIRE_WEAPON VK_DOWN
+#define C_WALK_FORWARD 'W'          // 0x57
+#define C_WALK_BACKWARD 'S'         // 0x53
+#define C_WALK_LEFT 'A'             // 0x41
+#define C_WALK_RIGHT 'D'            // 0x44
+#define C_LOOK_LEFT VK_LEFT         // 0x25
+#define C_LOOK_RIGHT VK_RIGHT       // 0x27
+#define C_FIRE_WEAPON VK_DOWN       // 0x28
+#define C_LOOK_SENSI 0.5
 
 
 

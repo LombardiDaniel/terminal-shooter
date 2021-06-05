@@ -104,11 +104,11 @@ void Engine::capture_inputs(Player& player) {
     float fSpeed = 5.0f;
 
     if (GetAsyncKeyState((unsigned short) C_LOOK_LEFT) & 0x8000)
-		player.pos.a -= (fSpeed * 0.75f) * this->fElapsedTime;
+		player.pos.a -= (fSpeed * C_LOOK_SENSI) * this->fElapsedTime;
 
 
 	if (GetAsyncKeyState((unsigned short) C_LOOK_RIGHT) & 0x8000)
-		player.pos.a += (fSpeed * 0.75f) * this->fElapsedTime;
+		player.pos.a += (fSpeed * C_LOOK_SENSI) * this->fElapsedTime;
 
 	// Handle Forwards movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_FORWARD) & 0x8000) {
