@@ -6,6 +6,7 @@
 #include "headers/engine.h"
 #include "headers/player.h"
 #include "headers/mobs.h"
+#include "headers/utils.h"
 
 
 Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map) {
@@ -72,11 +73,11 @@ void Engine::render(Player player, Mob mobs) {
                 else                                                this->screen[y * nScreenWidth + x] = H_TEXTURE_WALL_VERY_FAR;
             else {
                 float b = 1.0f - (((float)y - this->nScreenHeight/2.0f) / ((float) this->nScreenHeight / 2.0f));
-                if (b < 0.4)		this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_CLOSE;
-                else if (b < 0.45)	this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_MEDIUM;
-                else if (b < 0.7)	this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_FAR;
-                else if (b < 0.9)	this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_VERY_FAR;
-                else				this->screen[y * nScreenWidth + x] = H_TEXTURE_EMPTY;
+                if (b < 0.4)		                                this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_CLOSE;
+                else if (b < 0.45)	                                this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_MEDIUM;
+                else if (b < 0.7)	                                this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_FAR;
+                else if (b < 0.9)	                                this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_VERY_FAR;
+                else				                                this->screen[y * nScreenWidth + x] = H_TEXTURE_EMPTY;
             }
         }
     }
@@ -102,11 +103,11 @@ void Engine::capture_inputs(Player& player) {
 
     float fSpeed = 5.0f;
 
-    if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
+    if (GetAsyncKeyState((unsigned short) C_LOOK_LEFT) & 0x8000)
 		player.pos.a -= (fSpeed * 0.75f) * this->fElapsedTime;
 
 
-	if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
+	if (GetAsyncKeyState((unsigned short) C_LOOK_RIGHT) & 0x8000)
 		player.pos.a += (fSpeed * 0.75f) * this->fElapsedTime;
 
 
@@ -130,6 +131,26 @@ void Engine::capture_inputs(Player& player) {
 		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
 			player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
 			player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		}
+	}
+
+    // Handle Right movement & collision
+	if (GetAsyncKeyState((unsigned short) C_WALK_RIGHT) & 0x8000) {
+		player.pos.x += sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+		player.pos.y += cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+			player.pos.x -= sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+			player.pos.y -= cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+		}
+	}
+
+    // Handle Left movement & collision
+	if (GetAsyncKeyState((unsigned short) C_WALK_LEFT) & 0x8000) {
+		player.pos.x += sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
+		player.pos.y += cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
+		if (this->map.map[(int)player.pos.x * this->map.nMapWidth + (int)player.pos.y] == '#') {
+			player.pos.x -= sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
+			player.pos.y -= cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
 		}
 	}
 

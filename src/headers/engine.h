@@ -28,6 +28,9 @@
 #define C_WALK_BACKWARD 'S'
 #define C_WALK_LEFT 'A'
 #define C_WALK_RIGHT 'D'
+#define C_LOOK_LEFT VK_LEFT
+#define C_LOOK_RIGHT VK_RIGHT
+#define C_FIRE_WEAPON VK_DOWN
 
 
 
