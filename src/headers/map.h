@@ -7,11 +7,13 @@
 
 class Map {
 public:
+    Map();
+    
     int nMapHeight;
     int nMapWidth;
 
     std::string smap;
-    std::string mobs;
+    std::string smobs;
 };
 
 #endif

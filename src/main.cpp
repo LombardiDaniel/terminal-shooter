@@ -12,26 +12,7 @@
 
 int main(int argc, char const *argv[]) {
 
-    Map map;
-
-    map.nMapWidth = 16;
-    map.nMapHeight = 16;
-    map.smap += "################";
-    map.smap += "#..............#";
-    map.smap += "#...........####";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "#...#..........#";
-    map.smap += "#...#..........#";
-    map.smap += "#...#..#.......#";
-    map.smap += "#..............#";
-    map.smap += "#..............#";
-    map.smap += "################";
+    Map map;    
 
     Player player;
 

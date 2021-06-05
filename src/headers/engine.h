@@ -24,13 +24,14 @@
 #define H_TEXTURE_EMPTY 0xff
 
 // Commands
-#define C_WALK_FORWARD 'W'          // 0x57
-#define C_WALK_BACKWARD 'S'         // 0x53
-#define C_WALK_LEFT 'A'             // 0x41
-#define C_WALK_RIGHT 'D'            // 0x44
-#define C_LOOK_LEFT VK_LEFT         // 0x25
-#define C_LOOK_RIGHT VK_RIGHT       // 0x27
-#define C_FIRE_WEAPON VK_DOWN       // 0x28
+#define C_WALK_FORWARD 0x57          // 'W'
+#define C_WALK_BACKWARD 0x53         // 'S'
+#define C_WALK_LEFT 0x41             // 'A'
+#define C_WALK_RIGHT 0x44            // 'D'
+#define C_LOOK_LEFT VK_LEFT          // 0x25
+#define C_LOOK_RIGHT VK_RIGHT        // 0x27
+#define C_FIRE_WEAPON VK_DOWN        // 0x28
+#define C_FIRE_WEAPON_ALT VK_SPACE   // 0x20
 #define C_LOOK_SENSI 0.5
 
 
@@ -49,7 +50,10 @@ private:
 	HANDLE hConsole;
 	DWORD dwBytesWritten;
 
+    unsigned short lastMov;
+
     void _outputFrame();
+    void _overlayGun(std::string gun, bool reloading);
     void _overlayHUD(std::string hud);
     void _overlayFPS();
     void _overlayMap(Position pos);
