@@ -83,6 +83,7 @@ void Engine::render(Player player, Mob mobs) {
     }
 
     // this->_overlayFPS();
+    this->_overlayHUD(player.getHUD());
     this->_overlayMap(player.pos);
     this->_outputFrame();
 
@@ -90,6 +91,19 @@ void Engine::render(Player player, Mob mobs) {
 
 void Engine::_overlayFPS() {
     std::snprintf(this->screen, 10, "FPS=%5.2f", 1.0f/this->fElapsedTime);
+}
+
+void Engine::_overlayHUD(std::string hud) {
+
+    for (unsigned short int x = 0; x < this->nScreenWidth; x++)
+        for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
+            if (hud[y * this->nScreenWidth + x] != ' ')
+                this->screen[y * this->nScreenWidth + x] = hud[y * this->nScreenWidth + x];
+            if (hud[y * this->nScreenWidth + x] == '.')
+                this->screen[y * this->nScreenWidth + x] = ' ';
+        }
+
+
 }
 
 void Engine::_overlayMap(Position playerPos) {

@@ -11,6 +11,7 @@ public:
     int nMapWidth;
 
     std::string smap;
+    std::string mobs;
 };
 
 #endif

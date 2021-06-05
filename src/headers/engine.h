@@ -50,6 +50,7 @@ private:
 	DWORD dwBytesWritten;
 
     void _outputFrame();
+    void _overlayHUD(std::string hud);
     void _overlayFPS();
     void _overlayMap(Position pos);
 
