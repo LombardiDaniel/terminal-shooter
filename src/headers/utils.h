@@ -15,14 +15,14 @@ namespace utils {
     }
 
     template <typename T>
-    class Fila {
+    class Queue {
     private:
         T _items[50];
         int _nEntriesAmmount;
         void _shiftBack();
 
     public:
-        Fila();
+        Queue();
 
         bool push(T element);
         bool pop(T& element);
@@ -31,12 +31,12 @@ namespace utils {
     };
 
     template <typename T>
-    Fila<T>::Fila() {
+    Queue<T>::Queue() {
         this->_nEntriesAmmount = 0;
     }
 
     template <typename T>
-    void Fila<T>::_shiftBack() {
+    void Queue<T>::_shiftBack() {
         for (size_t i = 0; i < this->_nEntriesAmmount; i++)
             this->_items[i] = this->_items[i+1];
 
@@ -44,7 +44,7 @@ namespace utils {
     }
 
     template <typename T>
-    bool Fila<T>::push(T element) {
+    bool Queue<T>::push(T element) {
 
         if (this->_nEntriesAmmount < 50) {
             this->_items[this->_nEntriesAmmount++] = element;
@@ -55,7 +55,7 @@ namespace utils {
     }
 
     template <typename T>
-    bool Fila<T>::pop(T& element) {
+    bool Queue<T>::pop(T& element) {
 
         if (!this->empty()) {
             element = this->_items[0];
@@ -67,12 +67,12 @@ namespace utils {
     }
 
     template <typename T>
-    bool Fila<T>::empty() {
+    bool Queue<T>::empty() {
         return (this->_nEntriesAmmount == 0);
     }
 
     template <typename T>
-    bool Fila<T>::full() {
+    bool Queue<T>::full() {
         return (this->_nEntriesAmmount == 50);
     }
 
