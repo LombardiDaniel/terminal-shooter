@@ -43,6 +43,10 @@ private:
 
     Map map;
 
+    std::string _1mobsHealthBar;
+    std::string _2mobsHealthBar;
+    std::string _3mobsHealthBar;
+
     // Rendering related:
     unsigned int nScreenWidth;		// Console Screen Size X (columns)
     unsigned int nScreenHeight;		// Console Screen Size Y (rows)
@@ -54,15 +58,15 @@ private:
 
     void _outputFrame();
     void _overlayGun(std::string gun, bool reloading);
-    void _overlayHUD(std::string hud);
-    void _overlayFPS();
+    void _overlayHUD(std::string hud, Wave wave);
     void _overlayMap(Position pos);
+    void _createMobsHealthBars();
 
 public:
     float fElapsedTime;
 
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
-    void render(Player player, Mob mobs);
+    void render(Player player, Wave wave);
 
 
     void capture_inputs(Player& player);

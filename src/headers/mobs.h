@@ -4,7 +4,13 @@
 #include "entity.h"
 
 class Mob : public Entity {
-    
+public:
+    int nMobHeight;
+};
+
+struct Wave {
+    unsigned int nCount;
+    Mob mobsObj[3];
 };
 
 #endif

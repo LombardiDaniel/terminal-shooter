@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <iostream>
 #include <chrono>
 #include "math.h"
 
@@ -14,6 +15,7 @@ Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV
     this->nScreenHeight = nScreenHeight;
     this->map = map;
     this->fFOV = fFOV;
+    this->_createMobsHealthBars();
 
     if (map.nMapWidth > map.nMapHeight)
         this->fDepth = map.nMapWidth;
@@ -28,7 +30,7 @@ Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV
 }
 
 
-void Engine::render(Player player, Mob mobs) {
+void Engine::render(Player player, Wave wave) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
         float fRayAngle = (player.pos.a - this->fFOV / 2.f) + ((float) x / (float) this->nScreenWidth) * this->fFOV;
@@ -73,7 +75,7 @@ void Engine::render(Player player, Mob mobs) {
                 this->screen[y * this->nScreenWidth + x] = ' ';
             else if (y > nCeiling && y <= nFloor) {
                 if (bHitMob && !bHitWall)
-                    this->screen[y * nScreenWidth + x] = '$';
+                    this->screen[y * nScreenWidth + x] = '$'; // Aqui ta renderizando mob AO INVES da parede, colocar o mob em cima da parede
                 else if (!bHitMob && bHitWall) {
                     if (fDistanceToWall <= this->fDepth / 4)            this->screen[y * nScreenWidth + x] = H_TEXTURE_WALL_CLOSE;
                     else if (fDistanceToWall <= this->fDepth / 3)       this->screen[y * nScreenWidth + x] = H_TEXTURE_WALL_MEDIUM;
@@ -91,16 +93,11 @@ void Engine::render(Player player, Mob mobs) {
         }
     }
 
-    // this->_overlayFPS();
     this->_overlayGun(player.getgun(), player.reloading);
-    this->_overlayHUD(player.getHUD());
+    this->_overlayHUD(player.getHUD(), wave);
     this->_overlayMap(player.pos);
     this->_outputFrame();
 
-}
-
-void Engine::_overlayFPS() {
-    std::snprintf(this->screen, 10, "FPS=%5.2f", 1.0f/this->fElapsedTime);
 }
 
 void Engine::_overlayGun(std::string gun, bool reloading) {
@@ -136,15 +133,60 @@ void Engine::_overlayGun(std::string gun, bool reloading) {
 
 }
 
-void Engine::_overlayHUD(std::string hud) {
+void Engine::_overlayHUD(std::string hud, Wave mobWave) {
 
     for (unsigned short int x = 0; x < this->nScreenWidth; x++)
         for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
-            if (hud[y * this->nScreenWidth + x] != ' ')
-                this->screen[y * this->nScreenWidth + x] = hud[y * this->nScreenWidth + x];
             if (hud[y * this->nScreenWidth + x] == '.')
                 this->screen[y * this->nScreenWidth + x] = ' ';
+            else if (hud[y * this->nScreenWidth + x] != ' ')
+                this->screen[y * this->nScreenWidth + x] = hud[y * this->nScreenWidth + x];
         }
+
+    // Health bar dos mobs - falta um switch-case pra 1, 2, ou 3 mobs
+    std::string mobsHealthBarList;
+    switch (mobWave.nCount) {
+        case 1:
+            mobsHealthBarList = this->_1mobsHealthBar;
+            break;
+        case 2:
+            mobsHealthBarList = this->_2mobsHealthBar;
+            break;
+        case 3:
+            mobsHealthBarList = this->_3mobsHealthBar;
+            break;
+    }
+
+    for (unsigned short int x = 0; x < this->nScreenWidth; x++)
+        for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
+            if (mobsHealthBarList[y * this->nScreenWidth + x] == '.')
+                this->screen[y * this->nScreenWidth + x] = ' ';
+            else if (mobsHealthBarList[y * this->nScreenWidth + x] != ' ')
+                this->screen[y * this->nScreenWidth + x] = mobsHealthBarList[y * this->nScreenWidth + x];
+        }
+
+    switch (mobWave.nCount) {
+        case 1:
+            for (unsigned short int i = 0; i < 57; i++) {
+                this->screen[140 * 0 + 31 + i] = ' ';
+                this->screen[140 * 1 + 31 + i - 20] = ' ';
+            }
+            unsigned short int tmpSize = 57 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 31 + i] = '#';
+                this->screen[140 * 1 + 31 + i - 20] = '#';
+            }
+            break;
+        // case 2:
+        //     mobsHealthBarList = this->_2mobsHealthBar;
+        //     break;
+        // case 3:
+        //     mobsHealthBarList = this->_3mobsHealthBar;
+        //     break;
+    }
+
+
+
 
 
 }
@@ -227,4 +269,131 @@ void Engine::capture_inputs(Player& player) {
 		}
 	}
 
+}
+
+void Engine::_createMobsHealthBars() {
+    this->_1mobsHealthBar += "                              |.........................................................|                               ";
+    this->_1mobsHealthBar += "                              |.........................................................|                               ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+    this->_1mobsHealthBar += "                                                                                                                        ";
+
+    this->_2mobsHealthBar += "                    |........................|                        |........................|                        ";
+    this->_2mobsHealthBar += "                    |........................|                        |........................|                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+    this->_2mobsHealthBar += "                                                                                                                        ";
+
+    this->_3mobsHealthBar += "                  |........................|         |........................|        |........................|       ";
+    this->_3mobsHealthBar += "                  |........................|         |........................|        |........................|       ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
+    this->_3mobsHealthBar += "                                                                                                                        ";
 }

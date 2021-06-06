@@ -120,8 +120,7 @@ std::string Player::getHUD() {
 
     for (unsigned short int i = 0; i < 30; i++)
         this->_HUD[120 * 37 + 10 + i] = '.';
-
-
+        
     for (unsigned short int i = 0; i < 3 * this->nHealth; i++)
         this->_HUD[120 * 37 + 10 + i] = '#';
 

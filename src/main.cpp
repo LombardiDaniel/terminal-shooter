@@ -16,6 +16,7 @@ int main(int argc, char const *argv[]) {
 
     Player player;
 
+    // Default spawn
     player.pos.a = - utils::PI / 2;
     player.pos.x = 14.f;
     player.pos.y = 14.5f;
@@ -25,7 +26,14 @@ int main(int argc, char const *argv[]) {
     int nScreenW = 120;
     int nScreenH = 40;
 
+    Wave mobsWave;
     Mob mob;
+    mobsWave.nCount = 1;
+    mob.nHealth = 14;
+    mob.nMaxHealth = 20;
+    for (size_t i = 0; i < mobsWave.nCount; i++)
+        mobsWave.mobsObj[i] = mob;
+
 
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
 
@@ -42,7 +50,7 @@ int main(int argc, char const *argv[]) {
 
         engine.capture_inputs(player);
 
-        engine.render(player, mob);
+        engine.render(player, mobsWave);
     }
 
     return 0;

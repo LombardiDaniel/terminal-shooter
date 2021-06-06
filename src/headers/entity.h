@@ -10,6 +10,7 @@ struct Position {
 class Entity {
 public:
     int nHealth;
+    int nMaxHealth;
     Position pos;
 };
 
