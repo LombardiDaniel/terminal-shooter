@@ -15,5 +15,7 @@ player.o: src/player.cpp
 map.o: src/map.cpp
 	g++ $(CPPFLAGS) -c src/map.cpp
 
+clean:
+	rm *.o
 # This makefile is make for the `mingw32-make`, NOT for gnu-make
 # oth: g++ main.cpp engine.cpp -o .\..\TermShooter.exe

@@ -5,7 +5,7 @@
 
 #include "entity.h"
 
-struct Ammo {
+struct Ammo { // recarrega por fila
     int damage;
     char symbol;
 };
@@ -17,6 +17,8 @@ private:
 
 public:
     bool reloading;
+    int nAmmoCount;
+    Ammo aCurrentAmmo;
 
     Player();
     std::string getHUD();

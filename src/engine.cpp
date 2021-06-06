@@ -81,7 +81,7 @@ void Engine::render(Player player, Mob mobs) {
                     else                                                this->screen[y * nScreenWidth + x] = H_TEXTURE_WALL_VERY_FAR;
                 }
             } else {
-                float b = 1.0f - (((float)y - this->nScreenHeight/2.0f) / ((float) this->nScreenHeight / 2.0f));
+                float b = 1.0f - (((float) y - this->nScreenHeight/2.0f) / ((float) this->nScreenHeight / 2.0f));
                 if (b < 0.4)		                                    this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_CLOSE;
                 else if (b < 0.45)	                                    this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_MEDIUM;
                 else if (b < 0.7)	                                    this->screen[y * nScreenWidth + x] = H_TEXTURE_FLOOR_FAR;

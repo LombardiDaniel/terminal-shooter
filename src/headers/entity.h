@@ -9,7 +9,7 @@ struct Position {
 
 class Entity {
 public:
-    int health;
+    int nHealth;
     Position pos;
 };
 
