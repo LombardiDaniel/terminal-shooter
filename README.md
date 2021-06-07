@@ -9,7 +9,7 @@ make: `mingw32-make`
 - Pedro Freire Baleeiro
 
 ### Pseudo-Relatorio:
-O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderizacao (por ray-tracing/casting) cria uma ilusao 3D a partir das ditancias dos objetos e entidades do mapa. A HUD e o mini-mapa sao tratados como overlays e sao adicionados sobre o frame apos sua renderizacao.
+O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderizacao (por ray-tracing/casting) cria uma ilusao 3D a partir das ditancias dos objetos e entidades do mapa. A HUD e o mini-mapa sao tratados como overlays e sao adicionados sobre o frame apos sua renderizacao a partir de ums `std::string` que eh interpretada para maior flexibilidade artistica dos caracteres.
 
 
 ### URGENTE:

@@ -165,24 +165,72 @@ void Engine::_overlayHUD(std::string hud, Wave mobWave) {
                 this->screen[y * this->nScreenWidth + x] = mobsHealthBarList[y * this->nScreenWidth + x];
         }
 
+    unsigned short int tmpSize;
     switch (mobWave.nCount) {
         case 1:
             for (unsigned short int i = 0; i < 57; i++) {
                 this->screen[140 * 0 + 31 + i] = ' ';
                 this->screen[140 * 1 + 31 + i - 20] = ' ';
             }
-            unsigned short int tmpSize = 57 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            tmpSize = 57 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 31 + i] = '#';
                 this->screen[140 * 1 + 31 + i - 20] = '#';
             }
             break;
-        // case 2:
-        //     mobsHealthBarList = this->_2mobsHealthBar;
-        //     break;
-        // case 3:
-        //     mobsHealthBarList = this->_3mobsHealthBar;
-        //     break;
+
+        case 2:
+            for (unsigned short int i = 0; i < 24; i++) {
+                this->screen[140 * 0 + 21 + i] = ' ';
+                this->screen[140 * 1 + 21 + i - 20] = ' ';
+
+                this->screen[140 * 0 + 71 + i] = ' ';
+                this->screen[140 * 1 + 71 + i - 20] = ' ';
+            }
+
+            tmpSize = 24 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 21 + i] = '#';
+                this->screen[140 * 1 + 21 + i - 20] = '#';
+            }
+
+            tmpSize = 24 * mobWave.mobsObj[1].nHealth / mobWave.mobsObj[1].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 71 + i] = '#';
+                this->screen[140 * 1 + 71 + i - 20] = '#';
+            }
+            break;
+
+        case 3:
+            for (unsigned short int i = 0; i < 24; i++) {
+                this->screen[140 * 0 + 19 + i] = ' ';
+                this->screen[140 * 1 + 19 + i - 20] = ' ';
+
+                this->screen[140 * 0 + 54 + i] = ' ';
+                this->screen[140 * 1 + 54 + i - 20] = ' ';
+
+                this->screen[140 * 0 + 88 + i] = ' ';
+                this->screen[140 * 1 + 88 + i - 20] = ' ';
+            }
+
+            tmpSize = 19 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 19 + i] = '#';
+                this->screen[140 * 1 + 19 + i - 20] = '#';
+            }
+
+            tmpSize = 19 * mobWave.mobsObj[1].nHealth / mobWave.mobsObj[1].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 54 + i] = '#';
+                this->screen[140 * 1 + 54 + i - 20] = '#';
+            }
+
+            tmpSize = 19 * mobWave.mobsObj[2].nHealth / mobWave.mobsObj[2].nMaxHealth;
+            for (unsigned short int i = 0; i < tmpSize; i++) {
+                this->screen[140 * 0 + 88 + i] = '#';
+                this->screen[140 * 1 + 88 + i - 20] = '#';
+            }
+            break;
     }
 
 

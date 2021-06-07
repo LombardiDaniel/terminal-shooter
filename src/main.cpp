@@ -28,11 +28,16 @@ int main(int argc, char const *argv[]) {
 
     Wave mobsWave;
     Mob mob;
-    mobsWave.nCount = 1;
+    mobsWave.nCount = 3;
     mob.nHealth = 14;
     mob.nMaxHealth = 20;
-    for (size_t i = 0; i < mobsWave.nCount; i++)
-        mobsWave.mobsObj[i] = mob;
+    // for (size_t i = 0; i < mobsWave.nCount; i++)
+    //     mobsWave.mobsObj[i] = mob;
+    mobsWave.mobsObj[0] = mob;
+    mob.nMaxHealth = 40;
+    mobsWave.mobsObj[1] = mob;
+    mob.nMaxHealth = 100;
+    mobsWave.mobsObj[2] = mob;
 
 
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
