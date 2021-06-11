@@ -22,5 +22,8 @@ mobs.o: src/mobs.cpp
 
 clean:
 	del *.o
+
+clean_all:
+	del *.o src\headers\*.h.gch
 # This makefile is make for the `mingw32-make`, NOT for gnu-make
 # oth: g++ main.cpp engine.cpp -o .\..\TermShooter.exe
