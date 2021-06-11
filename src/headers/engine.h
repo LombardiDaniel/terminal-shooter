@@ -35,7 +35,6 @@
 #define C_LOOK_SENSI                    0.5            // default: 0.5
 
 
-
 class Engine {
 private:
     float fDepth;
@@ -58,7 +57,7 @@ private:
 
     void _outputFrame();
     void _overlayGun(std::string gun, bool reloading);
-    void _overlayHUD(std::string hud, Wave wave);
+    void _overlayHUD(std::string hud, MobsWave mobsWave);
     void _overlayMap(Position pos);
     void _createMobsHealthBars();
 
@@ -66,10 +65,10 @@ public:
     float fElapsedTime;
 
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
-    void render(Player player, Wave wave);
 
-
-    void capture_inputs(Player& player);
+    void render(Player player, MobsWave mobsWave);
+    void updateMobs(MobsWave mobsWave);
+    void captureInputs(Player& player);
 
 };
 

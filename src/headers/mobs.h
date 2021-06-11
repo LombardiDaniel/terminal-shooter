@@ -8,9 +8,12 @@ public:
     int nMobHeight;
 };
 
-struct Wave {
+class MobsWave {
+public:
     unsigned int nCount;
     Mob mobsObj[3];
+
+    MobsWave(int nCount, Mob* mobs);
 };
 
 #endif

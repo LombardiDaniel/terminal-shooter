@@ -26,18 +26,30 @@ int main(int argc, char const *argv[]) {
     int nScreenW = 120;
     int nScreenH = 40;
 
-    Wave mobsWave;
-    Mob mob;
-    mobsWave.nCount = 3;
-    mob.nHealth = 14;
-    mob.nMaxHealth = 20;
-    // for (size_t i = 0; i < mobsWave.nCount; i++)
-    //     mobsWave.mobsObj[i] = mob;
-    mobsWave.mobsObj[0] = mob;
-    mob.nMaxHealth = 40;
-    mobsWave.mobsObj[1] = mob;
-    mob.nMaxHealth = 100;
-    mobsWave.mobsObj[2] = mob;
+
+    Mob mob1;
+    mob1.nHealth = 14;
+    mob1.nMaxHealth = 20;
+    mob1.pos.x = 10;
+    mob1.pos.y = 4;
+
+    Mob mob2;
+    mob2.nHealth = 20;
+    mob2.nMaxHealth = 20;
+    mob2.pos.x = 11;
+    mob2.pos.y = 5;
+
+    Mob mob3;
+    mob3.nHealth = 1;
+    mob3.nMaxHealth = 20;
+    mob3.pos.x = 9;
+    mob3.pos.y = 5;
+
+    Mob mob_lst[3];
+    mob_lst[0] = mob1;
+    mob_lst[1] = mob2;
+    mob_lst[2] = mob3;
+    MobsWave wave = MobsWave(3, mob_lst);
 
 
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
@@ -53,9 +65,11 @@ int main(int argc, char const *argv[]) {
 
         engine.fElapsedTime = elapsedTime.count();
 
-        engine.capture_inputs(player);
+        engine.updateMobs(wave);
 
-        engine.render(player, mobsWave);
+        engine.captureInputs(player);
+
+        engine.render(player, wave);
     }
 
     return 0;

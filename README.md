@@ -9,11 +9,15 @@ make: `mingw32-make`
 - Pedro Freire Baleeiro
 
 ### Pseudo-Relatorio:
-O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderizacao (por ray-tracing/casting) cria uma ilusao 3D a partir das ditancias dos objetos e entidades do mapa. A HUD e o mini-mapa sao tratados como overlays e sao adicionados sobre o frame apos sua renderizacao a partir de ums `std::string` que eh interpretada para maior flexibilidade artistica dos caracteres.
+O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderizacao (por ray-tracing/casting) cria uma ilusao 3D a partir das ditancias dos objetos e entidades do mapa. A HUD e o mini-mapa sao tratados como overlays e sao adicionados sobre o frame apos sua renderizacao a partir de uma `std::string` que eh interpretada para maior flexibilidade artistica dos caracteres.
+
+A proxima etapa foi adaptar os elementos previstos ([Entidades](src/headers/entity.h), utilizadas pelas classes: [Player](src/headers/player.h) e [Mob](src/headers/mob.h)). Neste momento, foi criado a fila (TAD) de spawn de mobs, que trabalha com a classe [MobsWave](src/headers/mob.h) para preencher o tabuleiro de inimigos ao final dos rounds.
 
 
 ### URGENTE:
-- Implementar Entidades com movimentacao, renderizacao correta e TAD das entidades.
+- *****COLOCAR TIRO E DANO!!!!
+- TAD para spawn das unidades: fazer funcao `MobsWave createNewWave();` no arquivo utils e dar push na fila de MobsWave e a coloca na fila.
+- Implementar Entidades com movimentacao, TAD das entidades.
 - Municao com TAD (fila) e tipos diferentes
 
 ### NAO-URGENTE:

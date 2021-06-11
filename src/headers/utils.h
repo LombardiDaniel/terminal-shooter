@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <iostream>
+#include <stdlib.h>
 #include <string.h>
 
 namespace utils {
@@ -16,23 +17,43 @@ namespace utils {
 
     template <typename T>
     class Queue {
+        static const unsigned short int _ALLOC_BLOCK_SIZE = 5;
     private:
-        T _items[50];
+        T* _items;
         int _nEntriesAmmount;
+        int _nCurrentSize;
+
         void _shiftBack();
+        bool _allocNewBlock();
+        bool _full();
 
     public:
         Queue();
+        ~Queue();
 
         bool push(T element);
         bool pop(T& element);
         bool empty();
-        bool full();
     };
 
     template <typename T>
     Queue<T>::Queue() {
+        this->_items = new T[_ALLOC_BLOCK_SIZE];
+        this->_nCurrentSize = _ALLOC_BLOCK_SIZE;
         this->_nEntriesAmmount = 0;
+    }
+
+    template <typename T>
+    Queue<T>::~Queue() {
+        delete[] this->_items;
+    }
+
+    template <typename T>
+    bool Queue<T>::_allocNewBlock() {
+        this->_nCurrentSize += _ALLOC_BLOCK_SIZE;
+        this->_items = (T*) realloc(this->_items, this->_nCurrentSize);
+
+        return this->_items != NULL;
     }
 
     template <typename T>
@@ -46,10 +67,12 @@ namespace utils {
     template <typename T>
     bool Queue<T>::push(T element) {
 
-        if (this->_nEntriesAmmount < 50) {
-            this->_items[this->_nEntriesAmmount++] = element;
-            return (this->_items[this->_nEntriesAmmount-1] == element);
-        }
+        if (this->_full)
+            if (this->_allocNewBlock() == NULL)
+                exit(1);
+
+        this->_items[this->_nEntriesAmmount++] = element;
+        return this->_items[this->_nEntriesAmmount-1] == element;
 
         return false;
     }
@@ -60,7 +83,8 @@ namespace utils {
         if (!this->empty()) {
             element = this->_items[0];
             this->_shiftBack();
-            return (element == this->_items[0]);
+            
+            return element == this->_items[0];
         }
 
         return false;
@@ -68,12 +92,12 @@ namespace utils {
 
     template <typename T>
     bool Queue<T>::empty() {
-        return (this->_nEntriesAmmount == 0);
+        return this->_nEntriesAmmount == 0;
     }
 
     template <typename T>
-    bool Queue<T>::full() {
-        return (this->_nEntriesAmmount == 50);
+    bool Queue<T>::_full() {
+        return this->_nEntriesAmmount == this->_nCurrentSize;
     }
 
 }

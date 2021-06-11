@@ -29,8 +29,7 @@ Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV
 	this->dwBytesWritten = 0;
 }
 
-
-void Engine::render(Player player, Wave wave) {
+void Engine::render(Player player, MobsWave wave) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
         float fRayAngle = (player.pos.a - this->fFOV / 2.f) + ((float) x / (float) this->nScreenWidth) * this->fFOV;
@@ -100,6 +99,15 @@ void Engine::render(Player player, Wave wave) {
 
 }
 
+void Engine::updateMobs(MobsWave mobsWave) {
+
+    for (size_t i = 0; i < mobsWave.nCount; i++) {
+        int nMapHeight = this->map.nMapHeight;
+        int coord = (int) mobsWave.mobsObj[i].pos.y * nMapHeight + mobsWave.mobsObj[i].pos.x;
+        this->map.smobs[coord] = 'X';
+    }
+}
+
 void Engine::_overlayGun(std::string gun, bool reloading) {
 
     short movAmmountX = 0;
@@ -133,7 +141,7 @@ void Engine::_overlayGun(std::string gun, bool reloading) {
 
 }
 
-void Engine::_overlayHUD(std::string hud, Wave mobWave) {
+void Engine::_overlayHUD(std::string hud, MobsWave mobWave) {
 
     for (unsigned short int x = 0; x < this->nScreenWidth; x++)
         for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
@@ -173,6 +181,7 @@ void Engine::_overlayHUD(std::string hud, Wave mobWave) {
                 this->screen[140 * 1 + 31 + i - 20] = ' ';
             }
             tmpSize = 57 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 31 + i] = '#';
                 this->screen[140 * 1 + 31 + i - 20] = '#';
@@ -189,12 +198,14 @@ void Engine::_overlayHUD(std::string hud, Wave mobWave) {
             }
 
             tmpSize = 24 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 21 + i] = '#';
                 this->screen[140 * 1 + 21 + i - 20] = '#';
             }
 
             tmpSize = 24 * mobWave.mobsObj[1].nHealth / mobWave.mobsObj[1].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 71 + i] = '#';
                 this->screen[140 * 1 + 71 + i - 20] = '#';
@@ -214,18 +225,21 @@ void Engine::_overlayHUD(std::string hud, Wave mobWave) {
             }
 
             tmpSize = 19 * mobWave.mobsObj[0].nHealth / mobWave.mobsObj[0].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 19 + i] = '#';
                 this->screen[140 * 1 + 19 + i - 20] = '#';
             }
 
             tmpSize = 19 * mobWave.mobsObj[1].nHealth / mobWave.mobsObj[1].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 54 + i] = '#';
                 this->screen[140 * 1 + 54 + i - 20] = '#';
             }
 
             tmpSize = 19 * mobWave.mobsObj[2].nHealth / mobWave.mobsObj[2].nMaxHealth;
+            if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
             for (unsigned short int i = 0; i < tmpSize; i++) {
                 this->screen[140 * 0 + 88 + i] = '#';
                 this->screen[140 * 1 + 88 + i - 20] = '#';
@@ -262,7 +276,7 @@ void Engine::_outputFrame() {
 
 }
 
-void Engine::capture_inputs(Player& player) {
+void Engine::captureInputs(Player& player) {
 
     float fSpeed = 5.0f;
 
