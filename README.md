@@ -1,3 +1,4 @@
+[![tag](https://img.shields.io/github/v/release/LombardiDaniel/terminal-shooter?style=for-the-badge)](https://github.com/LombardiDaniel/terminal-shooter/releases/)
 # Terminal Shooter
 Projeto de Algoritmos e Estruturas de Dados I - Inspirado por Wolfenstein 3D, DOOM e QUAKE.
 
