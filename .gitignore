@@ -34,6 +34,9 @@
 # Mac OS files
 *.DS_Store
 
+# Compressed
+*.zip
+
 # Other files
 .vscode/*
 test-bkp/*
