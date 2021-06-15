@@ -1,9 +1,10 @@
 # This makefile is made for the `mingw32-make`, NOT for gnu-make
 
 CPPFLAGS=-std=c++11
+INCLUDEDLLFLAGS=-static-libstdc++ -static-libgcc
 
 TermShooter.exe: main.o engine.o player.o map.o mobs.o
-	g++ $(CPPFLAGS) main.o engine.o player.o map.o mobs.o -o TermShooter.exe
+	g++ $(CPPFLAGS) main.o engine.o player.o map.o mobs.o -o TermShooter.exe $(INCLUDEDLLFLAGS)
 
 main.o: src/main.cpp
 	g++ $(CPPFLAGS) -c src/main.cpp
@@ -23,7 +24,5 @@ mobs.o: src/mobs.cpp
 clean:
 	del *.o
 
-clean_all:
+cleanAll:
 	del *.o src\headers\*.h.gch
-# This makefile is make for the `mingw32-make`, NOT for gnu-make
-# oth: g++ main.cpp engine.cpp -o .\..\TermShooter.exe
