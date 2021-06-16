@@ -9,6 +9,9 @@
 #include "player.h"
 #include "mobs.h"
 
+// Game loop "frequency"
+#define GAME_TICK_RATE 0b1000000
+
 // Ray step size, increase to increase performance at the cost of quality
 #define F_RAY_STEP_SIZE 0.1
 
@@ -62,7 +65,7 @@ private:
     void _createMobsHealthBars();
 
 public:
-    float fElapsedTime;
+    float fElapsedTimeMilliSeconds;
 
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
 

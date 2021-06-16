@@ -18,6 +18,7 @@ Player::Player() {
     // default ammo - replace by list inicializer
     this->aCurrentAmmo.damage = 2;
     this->aCurrentAmmo.symbol = 'i';
+    this->fMovSpeed = 8;
 
     // this->aCurrentAmmo.damage = 5;
     // this->aCurrentAmmo.symbol = 'I';
@@ -120,7 +121,7 @@ std::string Player::getHUD() {
 
     for (unsigned short int i = 0; i < 30; i++)
         this->_HUD[120 * 37 + 10 + i] = '.';
-        
+
     for (unsigned short int i = 0; i < 3 * this->nHealth; i++)
         this->_HUD[120 * 37 + 10 + i] = '#';
 

@@ -246,11 +246,6 @@ void Engine::_overlayHUD(std::string hud, MobsWave mobWave) {
             }
             break;
     }
-
-
-
-
-
 }
 
 void Engine::_overlayMap(Position playerPos) {
@@ -260,7 +255,6 @@ void Engine::_overlayMap(Position playerPos) {
             this->screen[y * this->nScreenWidth + x] = this->map.smap[(this->map.nMapHeight - y - 1) * this->map.nMapWidth + x];
 
     this->screen[(int)(this->map.nMapHeight - playerPos.y) * this->nScreenWidth + (int) playerPos.x] = 'P';
-
 }
 
 void Engine::_outputFrame() {
@@ -278,56 +272,56 @@ void Engine::_outputFrame() {
 
 void Engine::captureInputs(Player& player) {
 
-    float fSpeed = 5.0f;
+    float fSpeed = 0.01f * player.fMovSpeed;
 
     if (GetAsyncKeyState((unsigned short) C_LOOK_LEFT) & 0x8000)
-		player.pos.a -= (fSpeed * C_LOOK_SENSI) * this->fElapsedTime;
+		player.pos.a -= (fSpeed * C_LOOK_SENSI);
 
 
 	if (GetAsyncKeyState((unsigned short) C_LOOK_RIGHT) & 0x8000)
-		player.pos.a += (fSpeed * C_LOOK_SENSI) * this->fElapsedTime;
+		player.pos.a += (fSpeed * C_LOOK_SENSI);
 
 	// Handle Forwards movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_FORWARD) & 0x8000) {
         this->lastMov = C_WALK_FORWARD;
-		player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-		player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		player.pos.x += sinf(player.pos.a) * fSpeed;
+		player.pos.y += cosf(player.pos.a) * fSpeed;
 		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
-			player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-			player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+			player.pos.x -= sinf(player.pos.a) * fSpeed;
+			player.pos.y -= cosf(player.pos.a) * fSpeed;
 		}
 	}
 
     // Handle Right movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_RIGHT) & 0x8000) {
         this->lastMov = C_WALK_RIGHT;
-		player.pos.x += sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
-		player.pos.y += cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+		player.pos.x += sinf(player.pos.a + utils::PI/2) * fSpeed;
+		player.pos.y += cosf(player.pos.a + utils::PI/2) * fSpeed;
 		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
-			player.pos.x -= sinf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
-			player.pos.y -= cosf(player.pos.a + utils::PI/2) * fSpeed * this->fElapsedTime;
+			player.pos.x -= sinf(player.pos.a + utils::PI/2) * fSpeed;
+			player.pos.y -= cosf(player.pos.a + utils::PI/2) * fSpeed;
 		}
 	}
 
     // Handle Left movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_LEFT) & 0x8000) {
         this->lastMov = C_WALK_LEFT;
-		player.pos.x += sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
-		player.pos.y += cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
+		player.pos.x += sinf(player.pos.a - utils::PI/2) * fSpeed;
+		player.pos.y += cosf(player.pos.a - utils::PI/2) * fSpeed;
 		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
-			player.pos.x -= sinf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
-			player.pos.y -= cosf(player.pos.a - utils::PI/2) * fSpeed * this->fElapsedTime;
+			player.pos.x -= sinf(player.pos.a - utils::PI/2) * fSpeed;
+			player.pos.y -= cosf(player.pos.a - utils::PI/2) * fSpeed;
 		}
 	}
 
 	// Handle backwards movement & collision
 	if (GetAsyncKeyState((unsigned short) C_WALK_BACKWARD) & 0x8000) {
         this->lastMov = C_WALK_BACKWARD;
-		player.pos.x -= sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-		player.pos.y -= cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+		player.pos.x -= sinf(player.pos.a) * fSpeed;
+		player.pos.y -= cosf(player.pos.a) * fSpeed;
 		if (this->map.smap[(int)player.pos.y * this->map.nMapWidth + (int)player.pos.x] == '#') {
-			player.pos.x += sinf(player.pos.a) * fSpeed * this->fElapsedTime;
-			player.pos.y += cosf(player.pos.a) * fSpeed * this->fElapsedTime;
+			player.pos.x += sinf(player.pos.a) * fSpeed;
+			player.pos.y += cosf(player.pos.a) * fSpeed;
 		}
 	}
 

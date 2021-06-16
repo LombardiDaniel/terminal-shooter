@@ -12,6 +12,7 @@ public:
     int nHealth;
     int nMaxHealth;
     Position pos;
+    float fMovSpeed;
 };
 
 #endif

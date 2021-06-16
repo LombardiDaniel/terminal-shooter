@@ -14,6 +14,8 @@ O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderi
 
 A proxima etapa foi adaptar os elementos previstos ([Entidades](src/headers/entity.h), utilizadas pelas classes: [Player](src/headers/player.h) e [Mob](src/headers/mob.h)). Neste momento, foi criado a fila (TAD) de spawn de mobs, que trabalha com a classe [MobsWave](src/headers/mob.h) para preencher o tabuleiro de inimigos ao final dos rounds.
 
+Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chrono` para marcar a diferenca entre cada iteracao do loop principal (encontrado na [main.cpp](src/main.cpp)), agora garantimos que a movimentacao das Entidades ocorre de maneira constante, independente da frquencia de atualizacao do jogo (que depende do computador do usuario, desde que rode pelo menos a tick rate definida na [engine.h](src/engine.h)). Agora eh possivel tratar dos eventos dentro do loop (dano, movimentacao etc).
+
 
 ### URGENTE:
 - *****COLOCAR TIRO E DANO!!!!

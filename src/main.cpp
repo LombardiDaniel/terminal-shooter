@@ -1,5 +1,3 @@
-
-// mapa declarado aqui, passa pra render engine
 #include <iostream>
 #include <chrono>
 
@@ -52,6 +50,7 @@ int main(int argc, char const *argv[]) {
     MobsWave wave = MobsWave(3, mob_lst);
 
 
+    // MAIN()
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
 
     auto tp1 = std::chrono::system_clock::now();
@@ -61,9 +60,14 @@ int main(int argc, char const *argv[]) {
 
         tp2 = std::chrono::system_clock::now();
 		std::chrono::duration<float> elapsedTime = tp2 - tp1;
-		tp1 = tp2;
 
-        engine.fElapsedTime = elapsedTime.count();
+        engine.fElapsedTimeMilliSeconds = std::chrono::duration_cast<std::chrono::milliseconds>(tp2 - tp1).count();
+
+        if (engine.fElapsedTimeMilliSeconds <= 1000 / GAME_TICK_RATE)
+            continue;
+
+        // Game-tick:
+		tp1 = tp2;
 
         engine.updateMobs(wave);
 
