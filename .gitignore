@@ -36,6 +36,7 @@
 
 # Compressed
 *.zip
+*.txt
 
 # Other files
 .vscode/*

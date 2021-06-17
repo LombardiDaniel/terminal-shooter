@@ -13,7 +13,11 @@ public:
     unsigned int nCount;
     Mob mobsObj[3];
 
+    MobsWave();
     MobsWave(int nCount, Mob* mobs);
+    bool ended();
+
+    static MobsWave generateNewWave(); //usar random e distribuicao normal p/ as hp
 };
 
 #endif

@@ -16,6 +16,13 @@ namespace utils {
     }
 
     template <typename T>
+    void swap(T& a, T& b) {
+        T tmp = a;
+        a = b;
+        b = tmp;
+    }
+
+    template <typename T>
     class Queue {
         static const unsigned short int _ALLOC_BLOCK_SIZE = 5;
     private:
@@ -83,7 +90,7 @@ namespace utils {
         if (!this->empty()) {
             element = this->_items[0];
             this->_shiftBack();
-            
+
             return element == this->_items[0];
         }
 
@@ -99,6 +106,11 @@ namespace utils {
     bool Queue<T>::_full() {
         return this->_nEntriesAmmount == this->_nCurrentSize;
     }
+
+    class Logger {
+        // abstrair abrir arquivo e dar um append nele com (\n) no comeco da linha
+        // colocar infos: LVL - HORA - MSG
+    };
 
 }
 

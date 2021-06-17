@@ -14,9 +14,11 @@ Player::Player() {
 
     this->nHealth = 10;
     this->nAmmoCount = 2;
+    this->timings.shooting = -1;
+    this->timings.reloading = -1;
 
     // default ammo - replace by list inicializer
-    this->aCurrentAmmo.damage = 2;
+    this->aCurrentAmmo.damage = 10;
     this->aCurrentAmmo.symbol = 'i';
     this->fMovSpeed = 8;
 
@@ -144,4 +146,36 @@ std::string Player::getgun() {
     return this->_gun;
 }
 
-// 217 192
+void Player::shoot(float fMoment) {
+    if (this->nAmmoCount > 0)
+        this->nAmmoCount--;
+    this->timings.shooting = (int) fMoment;
+}
+
+bool Player::shooting(float fMoment) {
+    if (this->timings.shooting == -1)
+        return false;
+
+    // Acumula o tempo dos frames ate a hora certa
+    this->timings.shooting += (int) fMoment;
+
+    if (this->timings.shooting >= N_SHOOTING_TIME_MS) {
+        this->timings.shooting = -1;
+        return false;
+    }
+    return true;
+}
+
+bool Player::reloading(float fMoment) {
+    if (this->timings.reloading == -1)
+        return false;
+
+    // Acumula o tempo dos frames ate a hora certa
+    this->timings.reloading += (int) fMoment;
+
+    if (this->timings.reloading >= N_RELOADING_TIME_MS) {
+        this->timings.reloading = -1;
+        return false;
+    }
+    return true;
+}

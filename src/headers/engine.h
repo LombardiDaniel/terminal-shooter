@@ -10,10 +10,10 @@
 #include "mobs.h"
 
 // Game loop "frequency"
-#define GAME_TICK_RATE 0b1000000
+#define GAME_TICK_RATE                  0b1000000
 
 // Ray step size, increase to increase performance at the cost of quality
-#define F_RAY_STEP_SIZE 0.1
+#define F_RAY_STEP_SIZE                 0.1
 
 // ASCII Textures
 #define H_TEXTURE_WALL_CLOSE            0xdb
@@ -60,18 +60,20 @@ private:
 
     void _outputFrame();
     void _overlayGun(std::string gun, bool reloading);
-    void _overlayHUD(std::string hud, MobsWave mobsWave);
+    void _overlayHUD(std::string hud);
     void _overlayMap(Position pos);
     void _createMobsHealthBars();
 
 public:
     float fElapsedTimeMilliSeconds;
+    MobsWave currentWave;
 
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
 
-    void render(Player player, MobsWave mobsWave);
-    void updateMobs(MobsWave mobsWave);
+    void render(Player player);
+    void updateMobs();
     void captureInputs(Player& player);
+    void shootFromPlayer(Player& player);
 
 };
 

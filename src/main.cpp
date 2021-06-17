@@ -26,10 +26,10 @@ int main(int argc, char const *argv[]) {
 
 
     Mob mob1;
-    mob1.nHealth = 14;
+    mob1.nHealth = 20;
     mob1.nMaxHealth = 20;
-    mob1.pos.x = 10;
-    mob1.pos.y = 4;
+    mob1.pos.x = 2;
+    mob1.pos.y = 2;
 
     Mob mob2;
     mob2.nHealth = 20;
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
     mob2.pos.y = 5;
 
     Mob mob3;
-    mob3.nHealth = 1;
+    mob3.nHealth = 5;
     mob3.nMaxHealth = 20;
     mob3.pos.x = 9;
     mob3.pos.y = 5;
@@ -52,6 +52,7 @@ int main(int argc, char const *argv[]) {
 
     // MAIN()
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
+    engine.currentWave = wave;
 
     auto tp1 = std::chrono::system_clock::now();
 	auto tp2 = std::chrono::system_clock::now();
@@ -69,11 +70,14 @@ int main(int argc, char const *argv[]) {
         // Game-tick:
 		tp1 = tp2;
 
-        engine.updateMobs(wave);
+        engine.updateMobs();
+        // Precisa gerar uma wave nova
+        // if (engine.currentWave.ended())
+        //     engine.currentWave = wave;
 
         engine.captureInputs(player);
 
-        engine.render(player, wave);
+        engine.render(player);
     }
 
     return 0;

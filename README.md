@@ -18,7 +18,7 @@ Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chr
 
 
 ### URGENTE:
-- *****COLOCAR TIRO E DANO!!!!
+- Colocar Reload
 - TAD para spawn das unidades: fazer funcao `MobsWave createNewWave();` no arquivo utils e dar push na fila de MobsWave e a coloca na fila.
 - Implementar Entidades com movimentacao, TAD das entidades.
 - Municao com TAD (fila) e tipos diferentes
