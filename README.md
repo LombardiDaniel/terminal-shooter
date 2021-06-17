@@ -28,3 +28,7 @@ Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chr
 - Tipos de entidades
 - Animacoes (tiro, hit-effect, morte)
 - Musica
+
+### Prioridades:
+- criar classe de logger simples, pqp ta foda
+- hp pra 80-70-100 sla
