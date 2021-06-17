@@ -9,8 +9,8 @@ class Map {
 public:
     Map();
 
-    const int nMapHeight;
-    const int nMapWidth;
+    int nMapHeight;
+    int nMapWidth;
 
     std::string smap;
     std::string smobs;
