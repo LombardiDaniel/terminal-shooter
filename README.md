@@ -1,6 +1,6 @@
 [![tag](https://img.shields.io/github/v/release/LombardiDaniel/terminal-shooter?include_prereleases&style=for-the-badge)](https://github.com/LombardiDaniel/terminal-shooter/releases/)
 # Terminal Shooter
-Projeto de Algoritmos e Estruturas de Dados I - Inspirado por Wolfenstein 3D, DOOM e QUAKE.
+Projeto de Algoritmos e Estruturas de Dados I - Inspirado em Wolfenstein 3D, DOOM e QUAKE.
 
 make: `mingw32-make`
 

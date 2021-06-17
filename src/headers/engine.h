@@ -40,8 +40,8 @@
 
 class Engine {
 private:
-    float fDepth;
-    float fFOV;
+    const float fDepth;
+    const float fFOV;
 
     Map map;
 
@@ -50,8 +50,8 @@ private:
     std::string _3mobsHealthBar;
 
     // Rendering related:
-    unsigned int nScreenWidth;		// Console Screen Size X (columns)
-    unsigned int nScreenHeight;		// Console Screen Size Y (rows)
+    const unsigned int nScreenWidth;		// Console Screen Size X (columns)
+    const unsigned int nScreenHeight;		// Console Screen Size Y (rows)
     char* screen;
 	HANDLE hConsole;
 	DWORD dwBytesWritten;

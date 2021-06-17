@@ -101,8 +101,8 @@ void Engine::render(Player player) {
 void Engine::updateMobs() {
 
     for (size_t i = 0; i < this->currentWave.nCount; i++) {
-        int nMapHeight = this->map.nMapHeight;
-        int coord = (int) this->currentWave.mobsObj[i].pos.y * nMapHeight + this->currentWave.mobsObj[i].pos.x;
+        const int nMapHeight = this->map.nMapHeight;
+        const int coord = (int) this->currentWave.mobsObj[i].pos.y * nMapHeight + this->currentWave.mobsObj[i].pos.x;
         if (this->currentWave.mobsObj[i].nHealth > 0)
             this->map.smobs[coord] = 'X';
         else
