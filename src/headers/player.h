@@ -9,12 +9,13 @@
 #define N_RELOADING_TIME_MS 1500
 
 
-struct Ammo { // recarrega por fila
-    int damage;
+struct Ammo {
+    int baseDamage;
+    int damage(float range);
     char symbol;
 };
 
-struct TimingsMs {
+struct TimingsMs { // if the timing is -1, means it is not happening
     int reloading;
     int shooting;
 };
@@ -30,9 +31,10 @@ public:
     bool shooting(float fMoment);
     int nAmmoCount;
     Ammo aCurrentAmmo;
+    int damageIndicator;
 
     Player();
-    void shoot(float fMoment);
+    void shoot(float fMoment); // inicializes the timing.shooting and reduces ammo
     std::string getHUD();
     std::string getgun();
 };

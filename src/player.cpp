@@ -18,7 +18,7 @@ Player::Player() {
     this->timings.reloading = -1;
 
     // default ammo - replace by list inicializer
-    this->aCurrentAmmo.damage = 10;
+    this->aCurrentAmmo.baseDamage = 10;
     this->aCurrentAmmo.symbol = 'i';
     this->fMovSpeed = 8;
 
@@ -147,22 +147,24 @@ std::string Player::getgun() {
 }
 
 void Player::shoot(float fMoment) {
-    if (this->nAmmoCount > 0)
+    if (this->nAmmoCount > 0) {
         this->nAmmoCount--;
-    this->timings.shooting = (int) fMoment;
+        this->timings.shooting = (int) fMoment;
+    }
 }
 
 bool Player::shooting(float fMoment) {
     if (this->timings.shooting == -1)
         return false;
 
-    // Acumula o tempo dos frames ate a hora certa
+    // Acumula o tempo dos ticks ate a hora certa
     this->timings.shooting += (int) fMoment;
 
     if (this->timings.shooting >= N_SHOOTING_TIME_MS) {
         this->timings.shooting = -1;
         return false;
     }
+
     return true;
 }
 
@@ -170,7 +172,7 @@ bool Player::reloading(float fMoment) {
     if (this->timings.reloading == -1)
         return false;
 
-    // Acumula o tempo dos frames ate a hora certa
+    // Acumula o tempo dos ticks ate a hora certa
     this->timings.reloading += (int) fMoment;
 
     if (this->timings.reloading >= N_RELOADING_TIME_MS) {
@@ -178,4 +180,20 @@ bool Player::reloading(float fMoment) {
         return false;
     }
     return true;
+}
+
+int Ammo::damage(float range) {
+    if (range <= 5)
+        return this->baseDamage;
+
+    else if (range > 5)
+        return (int) this->baseDamage / 1.2;
+
+    else if (range > 8)
+        return (int) this->baseDamage / 1.5;
+
+    else if (range > 10)
+        return (int) this->baseDamage / 2.2;
+
+    return 2;
 }

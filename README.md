@@ -20,6 +20,7 @@ Com as adaptacoes em relacao ao tempo e criacao da tick-rate do jogo, foi possiv
 
 
 ### URGENTE:
+- Corrigir delay do tiro; obs: problema deve estar em passar o timing.shooting de volta para -1 (por isso n some e por isso nao dxa atirar dnv)
 - Colocar Reload
 - TAD para spawn das unidades: fazer funcao `MobsWave createNewWave();` no arquivo utils e dar push na fila de MobsWave e a coloca na fila.
 - Implementar Entidades com movimentacao, TAD das entidades.

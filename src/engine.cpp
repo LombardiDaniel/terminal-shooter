@@ -93,7 +93,13 @@ void Engine::render(Player player) {
     }
 
     this->_overlayGun(player.getgun(), player.reloading(this->fElapsedTimeMilliSeconds));
-    this->_overlayHUD(player.getHUD());
+
+    int indicator = -1;
+    // player.shooting() happens every tick, so it updates the player.timing.shooting var;
+    if (player.shooting(this->fElapsedTimeMilliSeconds))
+        indicator = player.damageIndicator;
+    this->_overlayHUD(player.getHUD(), indicator);
+
     this->_overlayMap(player.pos);
     this->_outputFrame();
 }
@@ -144,7 +150,7 @@ void Engine::_overlayGun(std::string gun, bool reloading) {
 
 }
 
-void Engine::_overlayHUD(std::string hud) {
+void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
 
     for (unsigned short int x = 0; x < this->nScreenWidth; x++)
         for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
@@ -261,6 +267,19 @@ void Engine::_overlayHUD(std::string hud) {
             }
             break;
     }
+
+    // Damage indicator:
+    if (damageIndicator != -1) {
+        int posX = 60;
+        int posY = 18; // Y coords starts from the top
+        if (damageIndicator >= 10) {
+            this->screen[posY * this->nScreenWidth + posX] = '0' + (int) damageIndicator / 10;
+            this->screen[posY * this->nScreenWidth + posX + 1] = '0' + ((int) damageIndicator) % 10;
+        } else {
+            this->screen[posY * this->nScreenWidth + posX] = '0';
+            this->screen[posY * this->nScreenWidth + posX + 1] = '0' + damageIndicator;
+        }
+    }
 }
 
 void Engine::_overlayMap(Position playerPos) {
@@ -347,15 +366,16 @@ void Engine::captureInputs(Player& player) {
 
 void Engine::shootFromPlayer(Player& player) {
     // Hit-Scan
+    // Checa se o player nao esta recarregando ou atirando e ainda tem municao
     if (!player.reloading(this->fElapsedTimeMilliSeconds) &&
-        player.nAmmoCount > 0 && !player.shooting(this->fElapsedTimeMilliSeconds)) {
+        player.nAmmoCount > 0 && player.timings.shooting == -1) {
 
         player.shoot(this->fElapsedTimeMilliSeconds);
         float fEyeX = sinf(player.pos.a);
         float fEyeY = cosf(player.pos.a);
 
         bool bHitMob = false;
-        float fDistance = 0;
+        float fDistance = 0.f;
         int nTestX;
         int nTestY;
 
@@ -379,10 +399,13 @@ void Engine::shootFromPlayer(Player& player) {
             for (size_t i = 0; i < this->currentWave.nCount; i++)
                 if ((int) this->currentWave.mobsObj[i].pos.x == (int) nTestX &&
                     (int) this->currentWave.mobsObj[i].pos.y == (int) nTestY) {
-                    this->currentWave.mobsObj[i].nHealth -= player.aCurrentAmmo.damage;
-                    break;
+                    unsigned short int dmg = player.aCurrentAmmo.damage(fDistance);
+                    this->currentWave.mobsObj[i].nHealth -= dmg;
+                    player.damageIndicator = dmg;
+                    break; // mean damage cannot collateral (only damages 1 enemy at a time)
                 }
-        }
+        } else
+            player.damageIndicator = 0;
     }
 }
 
