@@ -4,6 +4,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+#define INFO 1
+#define WARNING 2
+#define ERROR 3
+#define CRITICAL 4
 
 namespace utils {
 
@@ -108,8 +114,148 @@ namespace utils {
     }
 
     class Logger {
+        private:
+            char _prefix;
+            char _path;
+            static const unsigned short int _lvl;
+        public:
+            Logger(char prefix, char path, const int lvl);
+            ~Logger();
+            void log(char msg, int lvl=2);
+            static int lvl_str(int lvl);
+            static void stdout_log(char msg, int lvl=INFO, **kwargs);
+    };
+
+    Logger::Logger(char prefix, char path, const int lvl){
+        this->_prefix = prefix;
+        //this->_path = f'./logs/{prefix}.log';
+        this->_lvl = lvl;
+    }
+
+    Logger::~Logger(){
+        delete[] this->_prefix;
+        delete[] this->_path;
+        delete[] this->_lvl;
+    }
+
+    void Logger::log(char msg, int lvl=2){
+        if (lvl >= this->_lvl){
+            if (this->_path !=NULL){
+               // with open(self.path, 'a+') as log_file:
+                    //log_file.write(f"{self._lvl_str(lvl)}; {str(datetime.now())[:-3]}; {msg};\n");
+            }
+            //Logger::stdout_log(msg, lvl=this->lvl_str(lvl), prefix=this->_prefix);  
+        }     
+    }
+
+    static int Logger::lvl_str(int lvl){
+        int lst_lvl[4] = {INFO,WARNING,ERROR,CRITICAL};
+
+        return lst_lvl[lvl - 1];
+    }
+    /*static void Logger::stdout_log(char msg, int lvl=INFO, **kwargs){
+        struct tm *data_hora_atual;
+        time_t segundos;
+        time(&segundos); 
+        data_hora_atual = localtime(&segundos);
+
+        //char log = f'{lvl.upper()}; {str(datetime.now())[:-3]}; {msg};'
+        char* result 
+        if (strstr(kwargs, "prefix")!=NULL){
+            //log = f"{lvl}; {kwargs.get('prefix')}; {str(datetime.now())[:-3]}; {msg};";
+            delete kwargs['prefix'];
+        }
+        else
+            //log = f"{lvl}; {str(datetime.now())[:-3]}; {msg};"
+
+        for (size_t key = 0; key<strlen(kwargs.items()); key++)
+           // log += f"{key}: {value}; "
+
+        //printf(log);
+    }*/
+
         // abstrair abrir arquivo e dar um append nele com (\n) no comeco da linha
         // colocar infos: LVL - HORA - MSG
+
+      /*  from datetime import datetime
+
+
+class DockerLogger:
+    '''
+    Basic Logger for .log files and stdout (for docker).
+    properties:
+        - prefix (str): Used for name of log_file and flag on stdout.
+        - path (str): Path of log_file.
+        - lvl (int by constant): Logger will log all messages flagged with higher
+            or equal to this.
+    '''
+
+    INFO = 1
+    WARNING = 2
+    ERROR = 3
+    CRITICAL = 4
+
+
+    def __init__(self, prefix, lvl):
+        self.prefix = prefix
+        self.path = f'./logs/{prefix}.log'
+        self.lvl = lvl
+
+    def log(self, msg, lvl=2):
+        '''
+        Simple function to log to stdout.
+        Args:
+            - msg (str): message to be logged
+            - lvl (constant): level of logged message
+        '''
+
+        if lvl >= self.lvl:
+
+            if self.path is not None:
+                with open(self.path, 'a+') as log_file:
+                    log_file.write(f'{self._lvl_str(lvl)}; {str(datetime.now())[:-3]}; {msg};\n')
+
+            DockerLogger.stdout_log(msg, lvl=self._lvl_str(lvl), prefix=self.prefix)
+
+
+    @staticmethod
+    def _lvl_str(lvl):
+        '''
+        Converts lvl int to appropriate str.
+        '''
+
+        lst_lvl = [
+            'INFO',
+            'WARNING',
+            'ERROR',
+            'CRITICAL'
+        ]
+
+        return lst_lvl[lvl - 1]
+
+
+    @staticmethod
+    def stdout_log(msg, lvl='INFO', **kwargs):
+        '''
+        Simple function to log to stdout.
+        Args:
+            - msg (str): message to be logged
+            - lvl (constant): level of logged message
+        '''
+
+
+        log = f'{lvl.upper()}; {str(datetime.now())[:-3]}; {msg};'
+
+        if 'prefix' in kwargs:
+            log = f"{lvl}; {kwargs.get('prefix')}; {str(datetime.now())[:-3]}; {msg};"
+            del kwargs['prefix']
+        else:
+            log = f"{lvl}; {str(datetime.now())[:-3]}; {msg};"
+
+        for key, value in kwargs.items():
+            log += f"{key}: {value}; "
+
+        print(log)*/
     };
 
 }
