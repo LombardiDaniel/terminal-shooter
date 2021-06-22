@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
-
+#include <Windows.h>
+#include <mmsystem.h>
 
 #include "headers/entity.h"
 #include "headers/player.h"
@@ -9,6 +10,8 @@
 
 
 int main(int argc, char const *argv[]) {
+
+    PlaySound(TEXT("track.wav"), NULL, SND_LOOP | SND_ASYNC); // Background music
 
     Map map;
 
@@ -56,6 +59,7 @@ int main(int argc, char const *argv[]) {
 
     auto tp1 = std::chrono::system_clock::now();
 	auto tp2 = std::chrono::system_clock::now();
+
 
     while (true) {
 
