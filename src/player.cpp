@@ -3,6 +3,7 @@
 #include <chrono>
 #include "math.h"
 
+
 #include "headers/entity.h"
 #include "headers/engine.h"
 #include "headers/player.h"
@@ -147,38 +148,40 @@ std::string Player::getgun() {
 }
 
 void Player::shoot(float fMoment) {
-    if (this->nAmmoCount > 0) {
-        this->nAmmoCount--;
-        this->timings.shooting = (int) fMoment;
-    }
+    this->nAmmoCount--;
+    this->timings.shooting += (int) fMoment;
 }
 
 bool Player::shooting(float fMoment) {
+
     if (this->timings.shooting == -1)
         return false;
 
     // Acumula o tempo dos ticks ate a hora certa
-    this->timings.shooting += (int) fMoment;
+    this->timings.shooting += fMoment;
 
-    if (this->timings.shooting >= N_SHOOTING_TIME_MS) {
+    if (this->timings.shooting >= N_SHOOTING_TIME_MS)
         this->timings.shooting = -1;
-        return false;
-    }
 
     return true;
 }
 
+void Player::reload(float fMoment) {
+    this->timings.reloading += (int) fMoment;
+    this->nAmmoCount = 2;
+}
+
 bool Player::reloading(float fMoment) {
+
     if (this->timings.reloading == -1)
         return false;
 
     // Acumula o tempo dos ticks ate a hora certa
-    this->timings.reloading += (int) fMoment;
+    this->timings.reloading += fMoment;
 
-    if (this->timings.reloading >= N_RELOADING_TIME_MS) {
+    if (this->timings.reloading >= N_RELOADING_TIME_MS)
         this->timings.reloading = -1;
-        return false;
-    }
+
     return true;
 }
 
@@ -186,10 +189,10 @@ int Ammo::damage(float range) {
     if (range <= 5)
         return this->baseDamage;
 
-    else if (range > 5)
+    else if (range > 5 && range <= 8)
         return (int) this->baseDamage / 1.2;
 
-    else if (range > 8)
+    else if (range > 8 && range <= 10)
         return (int) this->baseDamage / 1.5;
 
     else if (range > 10)

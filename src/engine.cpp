@@ -29,7 +29,7 @@ Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV
 	this->dwBytesWritten = 0;
 }
 
-void Engine::render(Player player) {
+void Engine::render(Player& player) {
 
     for (size_t x = 0; x < this->nScreenWidth; x++) {
         float fRayAngle = (player.pos.a - this->fFOV / 2.f) + ((float) x / (float) this->nScreenWidth) * this->fFOV;
@@ -94,11 +94,12 @@ void Engine::render(Player player) {
 
     this->_overlayGun(player.getgun(), player.reloading(this->fElapsedTimeMilliSeconds));
 
-    int indicator = -1;
+    int damageIndicator = -1;
     // player.shooting() happens every tick, so it updates the player.timing.shooting var;
+    player.reloading(this->fElapsedTimeMilliSeconds);
     if (player.shooting(this->fElapsedTimeMilliSeconds))
-        indicator = player.damageIndicator;
-    this->_overlayHUD(player.getHUD(), indicator);
+        damageIndicator = player.damageIndicator;
+    this->_overlayHUD(player.getHUD(), damageIndicator);
 
     this->_overlayMap(player.pos);
     this->_outputFrame();
@@ -145,6 +146,13 @@ void Engine::_overlayGun(std::string gun, bool reloading) {
                 if (gun[y * this->nScreenWidth + x] == '.')
                     this->screen[(y + movAmmountY) * this->nScreenWidth + (x + movAmmountX)] = ' ';
             } else {
+                // Reloading "animation"
+                int posX = 60;
+                int posY = 17; // Y coords starts from the top
+                char reloadingText[] = "RELOADING";
+                for (size_t i = 0; reloadingText[i] != '\0'; i++) {
+                    this->screen[posY * this->nScreenWidth + posX + i] = reloadingText[i];
+                }
 
             }
 
@@ -312,6 +320,9 @@ void Engine::captureInputs(Player& player) {
         (GetAsyncKeyState((unsigned short) C_FIRE_WEAPON_ALT) & 0x8000))
 		this->shootFromPlayer(player);
 
+    if ((GetAsyncKeyState((unsigned short) C_RELOAD_WEAPON) & 0x8000))
+		player.reload(this->fElapsedTimeMilliSeconds);
+
     if (GetAsyncKeyState((unsigned short) C_LOOK_LEFT) & 0x8000)
 		player.pos.a -= (fSpeed * C_LOOK_SENSI);
 
@@ -367,9 +378,7 @@ void Engine::captureInputs(Player& player) {
 void Engine::shootFromPlayer(Player& player) {
     // Hit-Scan
     // Checa se o player nao esta recarregando ou atirando e ainda tem municao
-    if (!player.reloading(this->fElapsedTimeMilliSeconds) &&
-        player.nAmmoCount > 0 && player.timings.shooting == -1) {
-
+    if (player.timings.reloading == -1 && player.nAmmoCount > 0 && player.timings.shooting == -1) {
         player.shoot(this->fElapsedTimeMilliSeconds);
         float fEyeX = sinf(player.pos.a);
         float fEyeY = cosf(player.pos.a);

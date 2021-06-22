@@ -25,4 +25,4 @@ clean:
 	del *.o
 
 cleanAll:
-	del *.o src\headers\*.h.gch
+	del *.o src\headers\*.h.gch *.log

@@ -31,6 +31,7 @@
 #define C_WALK_BACKWARD                 0x53           // 'S'
 #define C_WALK_LEFT                     0x41           // 'A'
 #define C_WALK_RIGHT                    0x44           // 'D'
+#define C_RELOAD_WEAPON                 0x52           // 'R'
 #define C_LOOK_LEFT                     VK_LEFT        // 0x25
 #define C_LOOK_RIGHT                    VK_RIGHT       // 0x27
 #define C_FIRE_WEAPON                   VK_DOWN        // 0x28
@@ -70,7 +71,7 @@ public:
 
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
 
-    void render(Player player);
+    void render(Player& player);
     void updateMobs();
     void captureInputs(Player& player);
     void shootFromPlayer(Player& player);
