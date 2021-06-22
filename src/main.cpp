@@ -27,38 +27,14 @@ int main(int argc, char const *argv[]) {
     int nScreenW = 120;
     int nScreenH = 40;
 
-
-    Mob mob1;
-    mob1.nHealth = 20;
-    mob1.nMaxHealth = 20;
-    mob1.pos.x = 2;
-    mob1.pos.y = 2;
-
-    Mob mob2;
-    mob2.nHealth = 20;
-    mob2.nMaxHealth = 20;
-    mob2.pos.x = 11;
-    mob2.pos.y = 5;
-
-    Mob mob3;
-    mob3.nHealth = 5;
-    mob3.nMaxHealth = 20;
-    mob3.pos.x = 9;
-    mob3.pos.y = 5;
-
-    Mob mob_lst[3];
-    mob_lst[0] = mob1;
-    mob_lst[1] = mob2;
-    mob_lst[2] = mob3;
-    MobsWave wave = MobsWave(3, mob_lst);
-
-
     // MAIN()
     Engine engine = Engine(nScreenW, nScreenH, fFov, map);
-    engine.currentWave = wave;
 
     auto tp1 = std::chrono::system_clock::now();
 	auto tp2 = std::chrono::system_clock::now();
+
+    WaveQueue waveQueue(map);
+    waveQueue.pop(engine.currentWave);
 
 
     while (true) {
@@ -76,8 +52,8 @@ int main(int argc, char const *argv[]) {
 
         engine.updateMobs();
         // Precisa gerar uma wave nova
-        // if (engine.currentWave.ended())
-        //     engine.currentWave = waveQueue.pop();
+        if (engine.currentWave.ended())
+            waveQueue.pop(engine.currentWave);
 
         engine.captureInputs(player);
 

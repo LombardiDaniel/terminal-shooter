@@ -75,14 +75,12 @@ namespace utils {
     template <typename T>
     bool Queue<T>::push(T element) {
 
-        if (this->_full)
-            if (this->_allocNewBlock() == NULL)
+        if (this->_full())
+            if (!this->_allocNewBlock())
                 exit(1);
 
         this->_items[this->_nEntriesAmmount++] = element;
-        return this->_items[this->_nEntriesAmmount-1] == element;
-
-        return false;
+        return true;
     }
 
     template <typename T>
@@ -92,7 +90,7 @@ namespace utils {
             element = this->_items[0];
             this->_shiftBack();
 
-            return element == this->_items[0];
+            return true;
         }
 
         return false;

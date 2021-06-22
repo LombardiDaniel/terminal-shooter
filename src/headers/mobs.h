@@ -2,6 +2,10 @@
 #define MOB_H
 
 #include "entity.h"
+#include "utils.h"
+#include "map.h"
+
+#define N_MAX_MOB_SPAWN_ATTEMPT 10
 
 class Mob : public Entity {
 public:
@@ -17,8 +21,20 @@ public:
     MobsWave(int nCount, Mob* mobs);
     bool ended();
 
-    static MobsWave generateNewWave(); //usar random e distribuicao normal p/ as hp
+    static MobsWave generateNewWave(int difficulty, Map map);
 };
+
+class WaveQueue : public utils::Queue<MobsWave> {
+private:
+    MobsWave enemyWaves[5];
+    int dificulty;
+    Map map;
+
+public:
+    WaveQueue(Map map);
+    bool pop(MobsWave& wave);
+};
+
 
 #endif
 
