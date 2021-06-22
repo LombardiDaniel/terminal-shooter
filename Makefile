@@ -4,8 +4,8 @@ CPPFLAGS=-std=c++11
 INCLUDEDLLFLAGS=-static-libstdc++ -static-libgcc
 DISABLEWARN=--enable-stdcall-fixup --disable-stdcall-fixup
 
-TermShooter.exe: main.o engine.o player.o map.o mobs.o
-	g++ $(CPPFLAGS) main.o engine.o player.o map.o mobs.o -o TermShooter.exe C:\Windows\System32\winmm.dll $(INCLUDEDLLFLAGS) $(DISABLEWARN)
+TermShooter.exe: main.o engine.o player.o map.o mobs.o utils.o
+	g++ $(CPPFLAGS) main.o engine.o player.o map.o mobs.o utils.o -o TermShooter.exe C:\Windows\System32\winmm.dll $(INCLUDEDLLFLAGS) $(DISABLEWARN)
 
 main.o: src/main.cpp
 	g++ $(CPPFLAGS) -c src/main.cpp
@@ -21,6 +21,9 @@ map.o: src/map.cpp
 
 mobs.o: src/mobs.cpp
 	g++ $(CPPFLAGS) -c src/mobs.cpp
+
+utils.o: src/utils.cpp
+	g++ $(CPPFLAGS) -c src/utils.cpp
 
 clean:
 	del *.o

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
 
@@ -106,70 +107,42 @@ namespace utils {
         return this->_nEntriesAmmount == this->_nCurrentSize;
     }
 
-    // class Logger {
-    //     private:
-    //         char _prefix;
-    //         char _path;
-    //         static const unsigned short int _lvl;
-    //     public:
-    //         Logger(char prefix, char path, const int lvl);
-    //         ~Logger();
-    //         void log(char msg, int lvl=2);
-    //         static int lvl_str(int lvl);
-    //         static void stdout_log(char msg, int lvl=INFO, **kwargs);
-    // };
-    //
-    // Logger::Logger(char prefix, char path, int lvl) {
-    //     this->_prefix = prefix;
-    //     //this->_path = f'./logs/{prefix}.log';
-    //     this->_lvl = lvl;
-    // }
-    //
-    // Logger::~Logger(){
-    //     delete[] this->_prefix;
-    //     delete[] this->_path;
-    //     delete[] this->_lvl;
-    // }
-    //
-    // void Logger::log(char msg, int lvl=2){
-    //     if (lvl >= this->_lvl){
-    //         if (this->_path !=NULL){
-    //            // with open(self.path, 'a+') as log_file:
-    //                 //log_file.write(f"{self._lvl_str(lvl)}; {str(datetime.now())[:-3]}; {msg};\n");
-    //         }
-    //         //Logger::stdout_log(msg, lvl=this->lvl_str(lvl), prefix=this->_prefix);
-    //     }
-    // }
-    //
-    // static int Logger::lvl_str(int lvl){
-    //     int lst_lvl[4] = {INFO,WARNING,ERROR,CRITICAL};
-    //
-    //     return lst_lvl[lvl - 1];
-    // }
-    /*static void Logger::stdout_log(char msg, int lvl=INFO, **kwargs){
-        struct tm *data_hora_atual;
-        time_t segundos;
-        time(&segundos);
-        data_hora_atual = localtime(&segundos);
 
-        //char log = f'{lvl.upper()}; {str(datetime.now())[:-3]}; {msg};'
-        char* result
-        if (strstr(kwargs, "prefix")!=NULL){
-            //log = f"{lvl}; {kwargs.get('prefix')}; {str(datetime.now())[:-3]}; {msg};";
-            delete kwargs['prefix'];
-        }
-        else
-            //log = f"{lvl}; {str(datetime.now())[:-3]}; {msg};"
+    class Logger {
+    public:
+        // typedef:
+        enum logPriority : unsigned short {DEBUG, INFO, WARNING, ERROR, CRITICAL};
 
-        for (size_t key = 0; key<strlen(kwargs.items()); key++)
-           // log += f"{key}: {value}; "
+    private:
+        logPriority _priority;
+        std::string _logFilePath;
+        std::string _prefix;
 
-        //printf(log);
-    }*/
+        template<typename... Args>
+        void _appendToFile(std::string priorityStr, const char* message, Args... args);
 
-        // abstrair abrir arquivo e dar um append nele com (\n) no comeco da linha
-        // colocar infos: LVL - HORA - MSG
-    // };
+    public:
+        Logger(std::string loggerName, std::string logFilePath, logPriority priority=INFO);
+        void setPriority(logPriority priority);
+        logPriority getPriority();
+
+        // Basic logging funcions:
+        template<typename... Args>
+        void debug(const char* message, Args... args);
+
+        template<typename... Args>
+        void info(const char* message, Args... args);
+
+        template<typename... Args>
+        void warning(const char* message, Args... args);
+
+        template<typename... Args>
+        void error(const char* message, Args... args);
+
+        template<typename... Args>
+        void critical(const char* message, Args... args);
+
+    };
 
 }
 
