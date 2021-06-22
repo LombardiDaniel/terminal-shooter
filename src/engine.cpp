@@ -248,7 +248,7 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
             }
 
             if (this->currentWave.mobsObj[0].nHealth > 0) {
-                tmpSize = 19 * this->currentWave.mobsObj[0].nHealth / this->currentWave.mobsObj[0].nMaxHealth;
+                tmpSize = 24 * this->currentWave.mobsObj[0].nHealth / this->currentWave.mobsObj[0].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 19 + i] = '#';
@@ -257,7 +257,7 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
             }
 
             if (this->currentWave.mobsObj[1].nHealth > 0) {
-                tmpSize = 19 * this->currentWave.mobsObj[1].nHealth / this->currentWave.mobsObj[1].nMaxHealth;
+                tmpSize = 24 * this->currentWave.mobsObj[1].nHealth / this->currentWave.mobsObj[1].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 54 + i] = '#';
@@ -266,7 +266,7 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
             }
 
             if (this->currentWave.mobsObj[2].nHealth > 0) {
-                tmpSize = 19 * this->currentWave.mobsObj[2].nHealth / this->currentWave.mobsObj[2].nMaxHealth;
+                tmpSize = 24 * this->currentWave.mobsObj[2].nHealth / this->currentWave.mobsObj[2].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 88 + i] = '#';

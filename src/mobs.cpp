@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <iostream>
+#include <stdlib.h>
 #include <random>
 #include "math.h"
 
@@ -32,9 +33,10 @@ bool MobsWave::ended() {
 MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
 
     Mob mobs[3];
-    unsigned int nMobsAmmount = rand() % 3 + 1;
+    std::default_random_engine generator;
+    std::uniform_int_distribution<int> ammountDistribution(1,3);
+    unsigned int nMobsAmmount = ammountDistribution(generator);
     for (size_t i = 0; i < nMobsAmmount; i++) {
-        std::default_random_engine generator;
         std::normal_distribution<float> distribution(20 + 10/nMobsAmmount, 3);
 
         // Health Power
@@ -46,10 +48,11 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
         int tmpY, tmpX;
         size_t counter = 0;
         do {
-            tmpX = rand() % map.nMapWidth;
-            tmpY = rand() % map.nMapHeight;
+            std::uniform_int_distribution<int> posDistribution(1, 16);
+            tmpX = posDistribution(generator);
+            tmpY = posDistribution(generator);
             counter++;
-        } while (map.smap[tmpY * map.nMapWidth + tmpX] == '.' ||
+        } while (map.smap[tmpY * map.nMapWidth + tmpX] == '.' &&
             counter < N_MAX_MOB_SPAWN_ATTEMPT);
 
         if (counter >= N_MAX_MOB_SPAWN_ATTEMPT) {
@@ -86,7 +89,7 @@ WaveQueue::WaveQueue(Map map) {
     mob2.pos.y = 5;
 
     Mob mob3;
-    mob3.nHealth = 5;
+    mob3.nHealth = 20;
     mob3.nMaxHealth = 20;
     mob3.pos.x = 9;
     mob3.pos.y = 5;
@@ -101,7 +104,9 @@ WaveQueue::WaveQueue(Map map) {
 bool WaveQueue::pop(MobsWave& wave) {
     bool bTmp = utils::Queue<MobsWave>::pop(wave);
 
-    wave = MobsWave::generateNewWave(++this->dificulty, this->map);
+    MobsWave newWave = MobsWave::generateNewWave(++this->dificulty, this->map);
+
+    this->push(newWave);
 
     return bTmp;
 }
