@@ -8,6 +8,7 @@
 #include "map.h"
 #include "player.h"
 #include "mobs.h"
+#include "utils.h"
 
 // Game loop "frequency"
 #define GAME_TICK_RATE                  0b1000000
@@ -41,6 +42,8 @@
 
 class Engine {
 private:
+    utils::Logger logger;
+
     float fDepth;
     float fFOV;
 

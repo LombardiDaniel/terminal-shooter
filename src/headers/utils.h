@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <cstdarg>
 
 namespace utils {
 
@@ -108,39 +109,39 @@ namespace utils {
     }
 
 
+
     class Logger {
     public:
-        // typedef:
-        enum logPriority : unsigned short {DEBUG, INFO, WARNING, ERROR, CRITICAL};
-
+        enum logPriority : unsigned short {Debug = 0, Info, Warning, Error, Critical};
     private:
-        logPriority _priority;
+        unsigned short _priority;
         std::string _logFilePath;
         std::string _prefix;
 
         template<typename... Args>
-        void _appendToFile(std::string priorityStr, const char* message, Args... args);
+        void _appendToFile(const char* priorityStr, const char* message, Args... args);
 
     public:
-        Logger(std::string loggerName, std::string logFilePath, logPriority priority=INFO);
-        void setPriority(logPriority priority);
-        logPriority getPriority();
+        Logger();
+        Logger(std::string loggerName, std::string logFilePath, unsigned short priority=Info);
+        void setPriority(unsigned short priority);
+        unsigned short getPriority();
 
         // Basic logging funcions:
         template<typename... Args>
-        void debug(const char* message, Args... args);
+        void debug(const std::string message, Args... args);
 
         template<typename... Args>
-        void info(const char* message, Args... args);
+        void info(const std::string message, Args... args);
 
         template<typename... Args>
-        void warning(const char* message, Args... args);
+        void warning(const std::string message, Args... args);
 
         template<typename... Args>
-        void error(const char* message, Args... args);
+        void error(const std::string message, Args... args);
 
         template<typename... Args>
-        void critical(const char* message, Args... args);
+        void critical(const std::string message, Args... args);
 
     };
 

@@ -11,6 +11,8 @@
 
 
 Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map) {
+    this->logger = utils::Logger("Engine", ".././logs/engine.log", utils::Logger::Warning);
+
     this->nScreenWidth = nScreenWidth;
     this->nScreenHeight = nScreenHeight;
     this->map = map;

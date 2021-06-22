@@ -12,6 +12,7 @@
 
 
 Player::Player() {
+    this->logger = utils::Logger("Player", ".././logs/player.log", utils::Logger::Debug);
 
     this->nHealth = 10;
     this->nAmmoCount = 2;
@@ -169,6 +170,7 @@ bool Player::shooting(float fMoment) {
 void Player::reload(float fMoment) {
     this->timings.reloading += (int) fMoment;
     this->nAmmoCount = 2;
+    this->logger.debug("player has shot");
 }
 
 bool Player::reloading(float fMoment) {

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <ctime>
 #include <sstream>
+#include <stdarg.h>
 
 #include "headers/utils.h"
 
@@ -22,14 +23,24 @@ namespace utils {
         return buf;
     }
 
-    Logger::Logger(std::string loggerName, std::string logFilePath, logPriority priority) {
+    Logger::Logger(std::string loggerName, std::string logFilePath, unsigned short priority) {
         this->_prefix = loggerName;
         this->_logFilePath = logFilePath;
         this->_priority = priority;
     }
 
+    Logger::Logger() {}
+
+    void Logger::setPriority(unsigned short priority) {
+        this->_priority = priority;
+    }
+
+    unsigned short Logger::getPriority() {
+        return this->_priority;
+    }
+
     template<typename... Args>
-    void Logger::_appendToFile(std::string priorityStr, const char* message, Args... args) {
+    void Logger::_appendToFile(const char* priorityStr, const char* message, Args... args) {
         std::ofstream logFile;
         logFile.open(this->_logFilePath, std::ios_base::app);
 
@@ -44,32 +55,32 @@ namespace utils {
     }
 
     template<typename... Args>
-    void Logger::debug(const char* message, Args... args) {
-        if (this->_priority <= DEBUG)
+    void Logger::debug(const std::string message, Args... args) {
+        if (this->_priority <= Debug)
             this->_appendToFile(message, args...);
     }
 
     template<typename... Args>
-    void Logger::info(const char* message, Args... args) {
-        if (this->_priority <= INFO)
+    void Logger::info(const std::string message, Args... args) {
+        if (this->_priority <= Info)
             this->_appendToFile("INFO", message, args...);
     }
 
     template<typename... Args>
-    void Logger::warning(const char* message, Args... args) {
-        if (this->_priority <= WARNING)
+    void Logger::warning(const std::string message, Args... args) {
+        if (this->_priority <= Warning)
             this->_appendToFile("WARNING", message, args...);
     }
 
     template<typename... Args>
-    void Logger::error(const char* message, Args... args) {
-        if (this->_priority <= ERROR)
+    void Logger::error(const std::string message, Args... args) {
+        if (this->_priority <= Error)
             this->_appendToFile("ERROR", message, args...);
     }
 
     template<typename... Args>
-    void Logger::critical(const char* message, Args... args) {
-        if (this->_priority <= CRITICAL)
+    void Logger::critical(const std::string message, Args... args) {
+        if (this->_priority <= Critical)
             this->_appendToFile("CRITICAL", message, args...);
     }
 }

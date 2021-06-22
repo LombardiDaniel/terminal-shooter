@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "entity.h"
+#include "utils.h"
 
 #define N_SHOOTING_TIME_MS 500
 #define N_RELOADING_TIME_MS 1500
@@ -22,6 +23,8 @@ struct TimingsMs { // if the timing is -1, means it is not happening
 
 class Player : public Entity {
 private:
+    utils::Logger logger;
+
     std::string _HUD;
     std::string _gun;
 
