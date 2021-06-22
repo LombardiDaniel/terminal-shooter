@@ -73,7 +73,7 @@ int main(int argc, char const *argv[]) {
         engine.updateMobs();
         // Precisa gerar uma wave nova
         // if (engine.currentWave.ended())
-        //     engine.currentWave = wave;
+        //     engine.currentWave = waveQueue.pop();
 
         engine.captureInputs(player);
 
