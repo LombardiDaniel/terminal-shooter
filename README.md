@@ -21,7 +21,7 @@ Com as adaptacoes em relacao ao tempo e criacao da tick-rate do jogo, foi possiv
 
 ### URGENTE:
 
-- **CORRIGIR** TAD para spawn das unidades: fazer funcao `MobsWave createNewWave();` no arquivo utils e dar push na fila de MobsWave e a coloca na fila.
+- **CORRIGIR** TAD para spawn das unidades: fazer funcao `MobsWave createNewWave();`:  no arquivo utils e dar push na fila de MobsWave e a coloca na fila. - Usar system::clock no RNG (pegar segundos pra fazer a seed)
 - Implementar Entidades com movimentacao, TAD das entidades.
 - Municao com TAD (fila) e tipos diferentes
 
