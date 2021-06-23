@@ -170,7 +170,7 @@ bool Player::shooting(float fMoment) {
 void Player::reload(float fMoment) {
     this->timings.reloading += (int) fMoment;
     this->nAmmoCount = 2;
-    this->logger.debug("player has shot");
+    this->logger.debug("Player started reload");
 }
 
 bool Player::reloading(float fMoment) {
