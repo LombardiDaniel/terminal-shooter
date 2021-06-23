@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <fstream>
 #include <time.h>
-#include <cstdarg>
-#include <sys/stat.h>
+
 
 namespace utils {
 
@@ -120,33 +120,70 @@ namespace utils {
         enum logPriority : unsigned short {Debug = 0, Info, Warning, Error, Critical};
     private:
         unsigned short _priority;
-        std::string _logFilePath;
-        std::string _prefix;
+        char* _logFilePath;
+        char* _prefix;
 
         template<typename... Args>
-        void _appendToFile(const char* priorityStr, const char* message, Args... args);
+        void _appendToFile(const char* priorityStr, const char* message, Args... args) {
+            std::ofstream logFile;
+            FILE* pFile;
+            pFile = fopen((const char*) this->_logFilePath, "a+");
+
+            fprintf(pFile, "[%s] - %s ", priorityStr, currentDateTime());
+
+            fprintf(pFile, message, args...);
+
+            fprintf(pFile, "\n");
+
+            fclose(pFile);
+        }
 
     public:
-        Logger();
-        Logger(std::string loggerName, std::string logFilePath, unsigned short priority=Info);
-        void setPriority(unsigned short priority);
-        unsigned short getPriority();
+        Logger() {}
+        Logger(char* loggerName, char* logFilePath, unsigned short priority=Info) {
+            this->_prefix = loggerName;
+            this->_logFilePath = logFilePath;
+            this->_priority = priority;
+        }
+
+        void setPriority(unsigned short priority) {
+            this->_priority = priority;
+        }
+
+        unsigned short getPriority() {
+            return this->_priority;
+        }
 
         // Basic logging funcions:
         template<typename... Args>
-        void debug(const std::string message, Args... args);
+        void debug(const char* message, Args... args) {
+            if (this->_priority <= Debug)
+                this->_appendToFile("DEBUG", message, args...);
+        }
 
         template<typename... Args>
-        void info(const std::string message, Args... args);
+        void info(const char* message, Args... args) {
+            if (this->_priority <= Info)
+                this->_appendToFile("INFO", message, args...);
+        }
 
         template<typename... Args>
-        void warning(const std::string message, Args... args);
+        void warning(const char* message, Args... args) {
+            if (this->_priority <= Warning)
+                this->_appendToFile("WARNING", message, args...);
+        }
 
         template<typename... Args>
-        void error(const std::string message, Args... args);
+        void error(const char* message, Args... args) {
+            if (this->_priority <= Error)
+                this->_appendToFile("ERROR", message, args...);
+        }
 
         template<typename... Args>
-        void critical(const std::string message, Args... args);
+        void critical(const char* message, Args... args) {
+            if (this->_priority <= Critical)
+                this->_appendToFile("CRITICAL", message, args...);
+        }
 
     };
 

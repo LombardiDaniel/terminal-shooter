@@ -12,7 +12,7 @@
 
 
 Player::Player() {
-    this->logger = utils::Logger("Player", ".././logs/player.log", utils::Logger::Debug);
+    this->logger = utils::Logger("Player", "logs/player.log", utils::Logger::Debug);
 
     this->nHealth = 10;
     this->nAmmoCount = 2;
