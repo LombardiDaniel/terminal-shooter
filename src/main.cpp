@@ -11,7 +11,8 @@
 
 int main(int argc, char const *argv[]) {
 
-    PlaySound(TEXT("track.wav"), NULL, SND_LOOP | SND_ASYNC); // Background music
+    if (utils::fileExists("track.wav"))
+        PlaySound(TEXT("track.wav"), NULL, SND_LOOP | SND_ASYNC); // Background music
 
     Map map;
 

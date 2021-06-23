@@ -7,10 +7,15 @@
 #include <string.h>
 #include <time.h>
 #include <cstdarg>
+#include <sys/stat.h>
 
 namespace utils {
 
     const float PI = 3.141592f;
+
+    const std::string currentDateTime();
+
+    bool fileExists(const std::string& filePath);
 
     template <typename T = char*>
     void _insert_color(char* original, unsigned int pos, T new_insertion) {

@@ -10,6 +10,12 @@
 #include "headers/utils.h"
 
 namespace utils {
+
+    bool fileExists(const std::string& filePath) {
+        struct stat buffer;
+        return (stat (filePath.c_str(), &buffer) == 0);
+    }
+
     // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     const std::string currentDateTime() {
         time_t     now = time(0);
