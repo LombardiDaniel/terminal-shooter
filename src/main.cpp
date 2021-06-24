@@ -59,6 +59,7 @@ int main(int argc, char const *argv[]) {
             waveQueue.pop(engine.currentWave);
 
         engine.captureInputs(player);
+        player.score = waveQueue.getDificulty() - 1;
 
         engine.render(player);
     }

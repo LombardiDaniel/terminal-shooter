@@ -101,7 +101,7 @@ void Engine::render(Player& player) {
     player.reloading(this->fElapsedTimeMilliSeconds);
     if (player.shooting(this->fElapsedTimeMilliSeconds))
         damageIndicator = player.damageIndicator;
-    this->_overlayHUD(player.getHUD(), damageIndicator);
+    this->_overlayHUD(player.getHUD(), damageIndicator, player.score);
 
     this->_overlayMap(player.pos);
     this->_outputFrame();
@@ -160,7 +160,7 @@ void Engine::_overlayGun(std::string gun, bool reloading) {
 
 }
 
-void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
+void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int score) {
 
     for (unsigned short int x = 0; x < this->nScreenWidth; x++)
         for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
@@ -277,6 +277,13 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator) {
             }
             break;
     }
+
+    // Score
+    std::string sScore = std::to_string(score);
+    for (unsigned int i = 0; i < sScore.length(); i++)
+        this->screen[
+            (this->nScreenHeight - 1) * this->nScreenWidth + i + 10
+        ] = sScore[i];
 
     // Damage indicator:
     if (damageIndicator != -1) {

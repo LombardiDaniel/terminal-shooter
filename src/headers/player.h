@@ -35,12 +35,14 @@ public:
     int nAmmoCount;
     Ammo aCurrentAmmo;
     int damageIndicator;
+    int score;
 
     Player();
     void shoot(float fMoment); // inicializes the timing.shooting and reduces ammo
     void reload(float fMoment); // identical to shoot
     std::string getHUD();
     std::string getgun();
+
 };
 
 #endif

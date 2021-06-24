@@ -30,10 +30,14 @@ bool MobsWave::ended() {
     return true;
 }
 
+int WaveQueue::getDificulty() {
+    return this->dificulty;
+}
+
 MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
 
     Mob mobs[3];
-    ;
+
     unsigned int nMobsAmmount = utils::ourDistribution(1, 4);
     for (size_t i = 0; i < nMobsAmmount; i++) {
         // Health Power
@@ -91,7 +95,7 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
 
 
 WaveQueue::WaveQueue(Map map) {
-    dificulty = 0;
+    this->dificulty = 0;
     this->map = map;
 
     Mob mob1;

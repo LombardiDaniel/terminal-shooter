@@ -35,6 +35,7 @@ private:
 public:
     WaveQueue(Map map);
     bool pop(MobsWave& wave);
+    int getDificulty();
 };
 
 

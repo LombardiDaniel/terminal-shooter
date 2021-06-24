@@ -64,7 +64,7 @@ private:
 
     void _outputFrame();
     void _overlayGun(std::string gun, bool reloading);
-    void _overlayHUD(std::string hud, const int damageIndicator);
+    void _overlayHUD(std::string hud, const int damageIndicator, const int score);
     void _overlayMap(Position pos);
     void _createMobsHealthBars();
 
