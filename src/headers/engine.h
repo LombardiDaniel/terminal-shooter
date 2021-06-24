@@ -1,5 +1,5 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#ifndef ENGINE_H
+#define ENGINE_H
 
 #include <Windows.h>
 #include <iostream>
