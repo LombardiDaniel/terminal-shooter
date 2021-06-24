@@ -24,6 +24,8 @@ Conforme a complexidade do código ia aumentando cada vez mais, adicionar uma si
 
 Foi desenvolvido um melhor meio de lidar com geração aleatória de elementos no jogo (RNG), por meio da utilização de bibliotecas de tempo em microsegundos e da utilização de matemática modular para calcular números entre certos intervalos desejados (como por exemplo, as vidas dos mobs de acordo com quantidade de inimigos e número de inimigos por round). Com isso, foi possível também implementar uma geração infinita de novos mobs nos locais adequados do mapa.
 
+Chegando às últimas adições de funcionalidade importantes, conseguimos criar um mecanismo de dano que o inimigo causa ao player quando próximo um do outro, essa feature também usa do RNG mencionado anterior para balancear a dificuldade do jogo, de tal modo que o dano de cada inimigo é inversamente proporcional a quantidade de inimigos por round. Também foi adicionado um score básico com base no número de rounds ganhos.
+
 
 
 ### URGENTE:
@@ -32,10 +34,11 @@ Foi desenvolvido um melhor meio de lidar com geração aleatória de elementos n
 - Municao com TAD (fila) e tipos diferentes
 
 ### NAO-URGENTE:
-- Tipos de entidades
+- Tipos de entidades (95% feito)
 - Animacoes (tiro, hit-effect, morte)
 
 ### Prioridades:
-- Possível dano
+- Possível dano (90% feito)
 - Possível movimentacao
-- Implementar score
+- Implementar score (90% feito)
+- Possível tela final (mostrar score) e de início (press any button)
