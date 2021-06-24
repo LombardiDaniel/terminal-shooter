@@ -16,29 +16,15 @@ namespace utils {
     }
 
     // Get current date/time, format is YYYY-MM-DD.HH-mm-ss
-    std::string currentDateTime() {
+    const std::string currentDateTime() {
 
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
 
         std::ostringstream oss;
-        oss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+        oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
         auto str = oss.str();
 
         return str;
-        //
-        // time_t rawtime;
-        // struct tm * timeinfo;
-        // char buffer[200];
-        //
-        // time(&rawtime);
-        // timeinfo = localtime(&rawtime);
-        //
-        // // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-        // // for more information about date/time format
-        //
-        // strftime(buffer, sizeof(buffer),"%Y-%m-%d %H:%M:%S",timeinfo);
-        // std::string str(buffer);
-        // return str;
     }
 }

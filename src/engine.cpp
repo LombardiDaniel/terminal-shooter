@@ -323,7 +323,8 @@ void Engine::captureInputs(Player& player) {
 		this->shootFromPlayer(player);
 
     if ((GetAsyncKeyState((unsigned short) C_RELOAD_WEAPON) & 0x8000))
-		player.reload(this->fElapsedTimeMilliSeconds);
+        if(player.timings.reloading == -1)
+            player.reload(this->fElapsedTimeMilliSeconds);
 
     if (GetAsyncKeyState((unsigned short) C_LOOK_LEFT) & 0x8000)
 		player.pos.a -= (fSpeed * C_LOOK_SENSI);
