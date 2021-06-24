@@ -129,11 +129,11 @@ namespace utils {
             FILE* pFile;
             pFile = fopen((const char*) this->_logFilePath, "a+");
 
-            fprintf(pFile, "[%s] - %s ", priorityStr, currentDateTime());
+            std::fprintf(pFile, "[%s] - %s ", priorityStr, currentDateTime().c_str());
 
-            fprintf(pFile, message, args...);
+            std::fprintf(pFile, message, args...);
 
-            fprintf(pFile, "\n");
+            std::fprintf(pFile, "\n");
 
             fclose(pFile);
         }

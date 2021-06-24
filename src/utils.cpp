@@ -16,7 +16,7 @@ namespace utils {
     }
 
     // Get current date/time, format is YYYY-MM-DD.HH-mm-ss
-    const std::string currentDateTime() {
+    std::string currentDateTime() {
 
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);
