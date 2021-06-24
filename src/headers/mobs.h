@@ -10,6 +10,7 @@
 class Mob : public Entity {
 public:
     int nMobHeight;
+    int nDamagePerSecond;
 };
 
 class MobsWave {

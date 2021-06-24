@@ -433,6 +433,15 @@ void Engine::shootFromPlayer(Player& player) {
     }
 }
 
+void Engine::checkForDamage(Player& player) {
+
+    for (size_t i = 0; i < this->currentWave.nCount; i++)
+        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1 &&
+            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1)
+            player.nHealth -= this->currentWave.mobsObj[i].nDamagePerSecond * this->fElapsedTimeMilliSeconds * pow(10, -3);
+
+}
+
 void Engine::_createMobsHealthBars() {
     this->_1mobsHealthBar += "                              |.........................................................|                               ";
     this->_1mobsHealthBar += "                              |.........................................................|                               ";

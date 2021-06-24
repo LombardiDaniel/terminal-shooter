@@ -75,6 +75,7 @@ public:
     Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map);
 
     void render(Player& player);
+    void checkForDamage(Player& player);
     void updateMobs();
     void captureInputs(Player& player);
     void shootFromPlayer(Player& player);

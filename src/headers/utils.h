@@ -15,6 +15,13 @@ namespace utils {
 
     const std::string currentDateTime();
 
+    template <typename T>
+    T modulus(T val) {
+        if (val >= 0)
+            return val;
+        return -val;
+    }
+
     bool fileExists(const std::string& filePath);
 
     int ourDistribution(int min, int max);

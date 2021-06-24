@@ -58,6 +58,8 @@ int main(int argc, char const *argv[]) {
         if (engine.currentWave.ended())
             waveQueue.pop(engine.currentWave);
 
+        engine.checkForDamage(player);
+
         engine.captureInputs(player);
         player.score = waveQueue.getDificulty() - 1;
 

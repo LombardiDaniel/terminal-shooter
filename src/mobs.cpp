@@ -46,6 +46,7 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
         int nMax = 20 + 10 / nMobsAmmount;
         tmpMob.nMaxHealth = utils::ourDistribution(nMin, nMax) * log(2 * difficulty + 1);
         tmpMob.nHealth = tmpMob.nMaxHealth;
+        tmpMob.nDamagePerSecond = 1;
 
         // Spawn Position
         int tmpY, tmpX;
