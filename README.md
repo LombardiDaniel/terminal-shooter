@@ -10,15 +10,21 @@ make: `mingw32-make`
 - Pedro Freire Baleeiro
 
 ### Pseudo-Relatorio:
-O primeiro passo foi a adaptacao do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderizacao (por ray-tracing/casting) cria uma ilusao 3D a partir das ditancias dos objetos e entidades do mapa. A HUD e o mini-mapa sao tratados como overlays e sao adicionados sobre o frame apos sua renderizacao a partir de uma `std::string` que eh interpretada para maior flexibilidade artistica dos caracteres.
+O primeiro passo foi a adaptação do renderizador ao sistema utilizado. O renderizador funciona utilizando caracteres [ASCII](http://www.asciitable.com) sem colorização. A renderização (por ray-tracing/casting) cria uma ilusão 3D a partir das ditâncias dos objetos e entidades do mapa. A HUD e o mini-mapa são tratados como overlays e são adicionados sobre o frame após sua renderização a partir de uma `std::string` que é interpretada para maior flexibilidade artística dos caracteres.
 
-A proxima etapa foi adaptar os elementos previstos ([Entidades](src/headers/entity.h), utilizadas pelas classes: [Player](src/headers/player.h) e [Mob](src/headers/mob.h)). Neste momento, foi criado a fila (TAD) de spawn de mobs, que trabalha com a classe [MobsWave](src/headers/mob.h) para preencher o tabuleiro de inimigos ao final dos rounds.
+Dentro do funcionamento do renderizador, houve a necessidade do uso de TADs do tipo listas cadastrais para armazenamento, passagem e busca de informações específicas como encontradas na implementação das classes [map](src/map.cpp), [engine](src/engine.cpp) e [player](src/player.cpp).
 
-Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chrono` para marcar a diferenca entre cada iteracao do loop principal (encontrado na [main.cpp](src/main.cpp)), agora garantimos que a movimentacao das Entidades ocorre de maneira constante, independente da frquencia de atualizacao do jogo (que depende do computador do usuario, desde que rode pelo menos a tick rate definida na [engine.h](src/engine.h)). Agora eh possivel tratar dos eventos dentro do loop (dano, movimentacao etc).
+A próxima etapa foi adaptar os elementos previstos ([Entidades](src/headers/entity.h), utilizadas pelas classes: [Player](src/headers/player.h) e [Mob](src/headers/mob.h)). Neste momento, foi criado a fila (TAD) de spawn de mobs, que trabalha com a classe [MobsWave](src/headers/mob.h) para preencher o tabuleiro de inimigos ao final dos rounds.
 
-Com as adaptacoes em relacao ao tempo e criacao da tick-rate do jogo, foi possivel (finalmente) implementar os disparos e danos aos mobs (feitos por hit-scan), com logica muito proxima ao do ray-tracing utilizado na renderizacao.
+Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chrono` para marcar a diferença entre cada iteração do loop principal (encontrado na [main.cpp](src/main.cpp)), agora garantimos que a movimentacao das Entidades ocorre de maneira constante, independente da frequência de atualização do jogo (que depende do computador do usuário, desde que rode pelo menos a tick rate definida na [engine.h](src/engine.h)). Agora é possível tratar dos eventos dentro do loop (dano, movimentação etc).
 
-Conforme a complexidade do codigo ia aumentando cada vez mais, adicionar uma simples funcionalidade como permitir que o jogador recarregasse sua arma necessitava de diversas modificacoes e adicoes ao codigo de varios arquivos, causando grande probabilidade de erros. Assim, foi desenvolvida uma simples classe de Logging (encontrada em [`utils.h`](src/headers/utils.h)) que possibilitou o desenvolivmento mais conciso e robusto de novas features, ja que agora poderiamos conferir valores das variaveis sem precisar ter a feature completa em funcionamento. Estes "mini-projetos" dentro do trabalho principal foram otimas maneiras de aumentar nosso conhecimento em C++, no caso do Logger, o principal foi o trabalho com [Veriadic Templates](https://en.cppreference.com/w/cpp/language/parameter_pack) (template pack), permitindo passar diferentes quantidades de parametros para uma funcao (o equivalente ao `*args, **kwargs`, em python).
+Com as adaptações em relação ao tempo e criação da tick-rate do jogo, foi possível (finalmente) implementar os disparos e danos aos mobs (feitos por hit-scan), com lógica muito próxima ao do ray-tracing utilizado na renderização.
+
+Conforme a complexidade do código ia aumentando cada vez mais, adicionar uma simples funcionalidade como permitir que o jogador recarregasse sua arma necessitava de diversas modificações e adições ao código de varios arquivos, causando grande probabilidade de erros. Assim, foi desenvolvida uma simples classe de Logging (encontrada em [`utils.h`](src/headers/utils.h)) que possibilitou o desenvolivmento mais consciso e robusto de novas features, já que agora poderiamos conferir valores das variáveis sem precisar ter a feature completa em funcionamento. Estes "mini-projetos" dentro do trabalho principal foram ótimas maneiras de aumentar nosso conhecimento em C++, no caso do Logger, o principal foi o trabalho com [Veriadic Templates](https://en.cppreference.com/w/cpp/language/parameter_pack) (template pack), permitindo passar diferentes quantidades de parâmetros para uma função (o equivalente ao `*args, **kwargs`, em python).
+
+Foi desenvolvido um melhor meio de lidar com geração aleatória de elementos no jogo (RNG), por meio da utilização de bibliotecas de tempo em microsegundos e da utilização de matemática modular para calcular números entre certos intervalos desejados (como por exemplo, as vidas dos mobs de acordo com quantidade de inimigos e número de inimigos por round). Com isso, foi possível também implementar uma geração infinita de novos mobs nos locais adequados do mapa.
+
+
 
 ### URGENTE:
 
@@ -30,8 +36,8 @@ Conforme a complexidade do codigo ia aumentando cada vez mais, adicionar uma sim
 - HUD dinamico
 - Tipos de entidades
 - Animacoes (tiro, hit-effect, morte)
-- Musica
 
 ### Prioridades:
-- criar classe de logger simples, pqp ta foda
-- hp pra 80-70-100 sla
+- Possível dano
+- Possível movimentacao
+- Implementar score
