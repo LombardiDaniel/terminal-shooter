@@ -16,8 +16,9 @@ A proxima etapa foi adaptar os elementos previstos ([Entidades](src/headers/enti
 
 Em seguida (16/6) o loop do jogo foi tratado. Utilizamos a standard library `chrono` para marcar a diferenca entre cada iteracao do loop principal (encontrado na [main.cpp](src/main.cpp)), agora garantimos que a movimentacao das Entidades ocorre de maneira constante, independente da frquencia de atualizacao do jogo (que depende do computador do usuario, desde que rode pelo menos a tick rate definida na [engine.h](src/engine.h)). Agora eh possivel tratar dos eventos dentro do loop (dano, movimentacao etc).
 
-Com as adaptacoes em relacao ao tempo e criacao da tick-rate do jogo, foi possivel (finalmente) implementar os disparos e danos aos mobs (feitos por hit-scan), com logica muito proxima ao ray-tracing utilizado na renderizacao.
+Com as adaptacoes em relacao ao tempo e criacao da tick-rate do jogo, foi possivel (finalmente) implementar os disparos e danos aos mobs (feitos por hit-scan), com logica muito proxima ao do ray-tracing utilizado na renderizacao.
 
+Conforme a complexidade do codigo ia aumentando cada vez mais, adicionar uma simples funcionalidade como permitir que o jogador recarregasse sua arma necessitava de diversas modificacoes e adicoes ao codigo de varios arquivos, causando grande probabilidade de erros. Assim, foi desenvolvida uma simples classe de Logging (encontrada em [`utila.h`](src/headers/utils.h)) que possibilitou o desenvolivmento mais conciso e robusto de novas features, ja que agora poderiamos conferir valores das variaveis sem precisar ter a feature completa em funcionamento. Estes "mini-projetos" dentro do trabalho principal foram otimas maneiras de aumentar nosso conhecimento em C++, no caso do Logger, o principal foi o trabalho com [Veriadic Templates](https://en.cppreference.com/w/cpp/language/parameter_pack) (template pack), permitindo passar diferentes quantidades de parametros para uma funcao (o equivalente ao `*args, **kwargs`, em python).
 
 ### URGENTE:
 
