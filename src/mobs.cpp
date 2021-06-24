@@ -24,7 +24,7 @@ MobsWave::MobsWave(int nCount, Mob* mobs) {
 
 bool MobsWave::ended() {
     for (size_t i = 0; i < this->nCount; i++)
-        if (this->mobsObj[i].nHealth > 0)
+        if (this->mobsObj[i].fHealth > 0)
             return false;
 
     return true;
@@ -45,8 +45,10 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
         int nMin = 15 + 10 / nMobsAmmount;
         int nMax = 20 + 10 / nMobsAmmount;
         tmpMob.nMaxHealth = utils::ourDistribution(nMin, nMax) * log(2 * difficulty + 1);
-        tmpMob.nHealth = tmpMob.nMaxHealth;
-        tmpMob.nDamagePerSecond = 1;
+        tmpMob.fHealth = tmpMob.nMaxHealth;
+        nMin = 3 / nMobsAmmount;
+        nMax = 6 / nMobsAmmount;
+        tmpMob.nDamagePerSecond = utils::ourDistribution(nMin, nMax) * log(2 * difficulty + 1);
 
         // Spawn Position
         int tmpY, tmpX;
@@ -100,22 +102,25 @@ WaveQueue::WaveQueue(Map map) {
     this->map = map;
 
     Mob mob1;
-    mob1.nHealth = 20;
+    mob1.fHealth = 20;
     mob1.nMaxHealth = 20;
     mob1.pos.x = 2;
     mob1.pos.y = 2;
+    mob1.nDamagePerSecond = 1;
 
     Mob mob2;
-    mob2.nHealth = 20;
+    mob2.fHealth = 20;
     mob2.nMaxHealth = 20;
     mob2.pos.x = 11;
     mob2.pos.y = 5;
+    mob2.nDamagePerSecond = 1;
 
     Mob mob3;
-    mob3.nHealth = 20;
+    mob3.fHealth = 20;
     mob3.nMaxHealth = 20;
     mob3.pos.x = 9;
     mob3.pos.y = 5;
+    mob3.nDamagePerSecond = 1;
 
     Mob mobLst[3];
     mobLst[0] = mob1;

@@ -9,7 +9,7 @@ struct Position {
 
 class Entity {
 public:
-    int nHealth;
+    float fHealth;
     int nMaxHealth;
     Position pos;
     float fMovSpeed;

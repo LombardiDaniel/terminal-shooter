@@ -11,7 +11,7 @@
 
 
 Engine::Engine(unsigned int nScreenWidth, unsigned int nScreenHeight, float fFOV, Map map) {
-    this->logger = utils::Logger("Engine", "logs/engine.log", utils::Logger::Warning);
+    this->logger = utils::Logger("Engine", "logs/engine.log", utils::Logger::Info);
 
     this->nScreenWidth = nScreenWidth;
     this->nScreenHeight = nScreenHeight;
@@ -112,7 +112,7 @@ void Engine::updateMobs() {
     for (size_t i = 0; i < this->currentWave.nCount; i++) {
         const int nMapHeight = this->map.nMapHeight;
         const int coord = (int) this->currentWave.mobsObj[i].pos.y * nMapHeight + this->currentWave.mobsObj[i].pos.x;
-        if (this->currentWave.mobsObj[i].nHealth > 0)
+        if (this->currentWave.mobsObj[i].fHealth > 0)
             this->map.smobs[coord] = 'X';
         else
             this->map.smobs[coord] = '.';
@@ -199,8 +199,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 this->screen[140 * 0 + 31 + i] = ' ';
                 this->screen[140 * 1 + 31 + i - 20] = ' ';
             }
-            if (this->currentWave.mobsObj[0].nHealth > 0) {
-                tmpSize = 57 * this->currentWave.mobsObj[0].nHealth / this->currentWave.mobsObj[0].nMaxHealth;
+            if (this->currentWave.mobsObj[0].fHealth > 0) {
+                tmpSize = 57 * this->currentWave.mobsObj[0].fHealth / this->currentWave.mobsObj[0].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 31 + i] = '#';
@@ -218,8 +218,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 this->screen[140 * 1 + 71 + i - 20] = ' ';
             }
 
-            if (this->currentWave.mobsObj[0].nHealth > 0) {
-                tmpSize = 24 * this->currentWave.mobsObj[0].nHealth / this->currentWave.mobsObj[0].nMaxHealth;
+            if (this->currentWave.mobsObj[0].fHealth > 0) {
+                tmpSize = 24 * this->currentWave.mobsObj[0].fHealth / this->currentWave.mobsObj[0].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 21 + i] = '#';
@@ -227,8 +227,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 }
             }
 
-            if (this->currentWave.mobsObj[1].nHealth > 0) {
-                tmpSize = 24 * this->currentWave.mobsObj[1].nHealth / this->currentWave.mobsObj[1].nMaxHealth;
+            if (this->currentWave.mobsObj[1].fHealth > 0) {
+                tmpSize = 24 * this->currentWave.mobsObj[1].fHealth / this->currentWave.mobsObj[1].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 71 + i] = '#';
@@ -249,8 +249,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 this->screen[140 * 1 + 88 + i - 20] = ' ';
             }
 
-            if (this->currentWave.mobsObj[0].nHealth > 0) {
-                tmpSize = 24 * this->currentWave.mobsObj[0].nHealth / this->currentWave.mobsObj[0].nMaxHealth;
+            if (this->currentWave.mobsObj[0].fHealth > 0) {
+                tmpSize = 24 * this->currentWave.mobsObj[0].fHealth / this->currentWave.mobsObj[0].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 19 + i] = '#';
@@ -258,8 +258,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 }
             }
 
-            if (this->currentWave.mobsObj[1].nHealth > 0) {
-                tmpSize = 24 * this->currentWave.mobsObj[1].nHealth / this->currentWave.mobsObj[1].nMaxHealth;
+            if (this->currentWave.mobsObj[1].fHealth > 0) {
+                tmpSize = 24 * this->currentWave.mobsObj[1].fHealth / this->currentWave.mobsObj[1].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 54 + i] = '#';
@@ -267,8 +267,8 @@ void Engine::_overlayHUD(std::string hud, const int damageIndicator, const int s
                 }
             }
 
-            if (this->currentWave.mobsObj[2].nHealth > 0) {
-                tmpSize = 24 * this->currentWave.mobsObj[2].nHealth / this->currentWave.mobsObj[2].nMaxHealth;
+            if (this->currentWave.mobsObj[2].fHealth > 0) {
+                tmpSize = 24 * this->currentWave.mobsObj[2].fHealth / this->currentWave.mobsObj[2].nMaxHealth;
                 if (tmpSize < 1 && tmpSize > -1) tmpSize = 1;
                 for (unsigned short int i = 0; i < tmpSize; i++) {
                     this->screen[140 * 0 + 88 + i] = '#';
@@ -424,7 +424,7 @@ void Engine::shootFromPlayer(Player& player) {
                 if ((int) this->currentWave.mobsObj[i].pos.x == (int) nTestX &&
                     (int) this->currentWave.mobsObj[i].pos.y == (int) nTestY) {
                     unsigned short int dmg = player.aCurrentAmmo.damage(fDistance);
-                    this->currentWave.mobsObj[i].nHealth -= dmg;
+                    this->currentWave.mobsObj[i].fHealth -= dmg;
                     player.damageIndicator = dmg;
                     break; // mean damage cannot collateral (only damages 1 enemy at a time)
                 }
@@ -436,10 +436,13 @@ void Engine::shootFromPlayer(Player& player) {
 void Engine::checkForDamage(Player& player) {
 
     for (size_t i = 0; i < this->currentWave.nCount; i++)
-        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1 &&
-            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1)
-            player.nHealth -= this->currentWave.mobsObj[i].nDamagePerSecond * this->fElapsedTimeMilliSeconds * pow(10, -3);
-
+        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
+            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
+                // float damage = 1 * 0.016;
+                float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
+                player.fHealth -= damage;
+                this->logger.info("Damage Dealt: %f", damage);
+            }
 }
 
 void Engine::_createMobsHealthBars() {

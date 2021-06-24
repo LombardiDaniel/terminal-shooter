@@ -64,6 +64,9 @@ int main(int argc, char const *argv[]) {
         player.score = waveQueue.getDificulty() - 1;
 
         engine.render(player);
+
+        // if (player.fHealth < 0)
+        //     engine.deathScreen(player.score);
     }
 
     return 0;

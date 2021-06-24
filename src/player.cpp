@@ -14,7 +14,7 @@
 Player::Player() {
     this->logger = utils::Logger("Player", "logs/player.log", utils::Logger::Debug);
 
-    this->nHealth = 10;
+    this->fHealth = 10;
     this->nAmmoCount = 2;
     this->timings.shooting = -1;
     this->timings.reloading = -1;
@@ -114,11 +114,11 @@ std::string Player::getHUD() {
 
     // Dynamic HUD
     // HP:
-    if (this->nHealth == 10) {
+    if (this->fHealth == 10) {
         this->_HUD[120 * 37 + 42] = '1';
         this->_HUD[120 * 37 + 43] = '0';
     } else {
-        std::string sTmp = std::to_string(this->nHealth);
+        std::string sTmp = std::to_string(this->fHealth);
         this->_HUD[120 * 37 + 42] = '0';
         this->_HUD[120 * 37 + 43] = sTmp[0];
     }
@@ -126,7 +126,7 @@ std::string Player::getHUD() {
     for (unsigned short int i = 0; i < 30; i++)
         this->_HUD[120 * 37 + 10 + i] = '.';
 
-    for (unsigned short int i = 0; i < 3 * this->nHealth; i++)
+    for (unsigned short int i = 0; i < 3 * this->fHealth; i++)
         this->_HUD[120 * 37 + 10 + i] = '#';
 
 
