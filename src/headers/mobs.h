@@ -5,7 +5,7 @@
 #include "utils.h"
 #include "map.h"
 
-#define N_MAX_MOB_SPAWN_ATTEMPT 10
+#define N_MAX_MOB_SPAWN_ATTEMPT     0xf00
 
 class Mob : public Entity {
 public:
@@ -13,6 +13,8 @@ public:
 };
 
 class MobsWave {
+private:
+    utils::Logger logger;
 public:
     unsigned int nCount;
     Mob mobsObj[3];

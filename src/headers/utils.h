@@ -17,6 +17,8 @@ namespace utils {
 
     bool fileExists(const std::string& filePath);
 
+    int ourDistribution(int min, int max);
+
     template <typename T = char*>
     void _insert_color(char* original, unsigned int pos, T new_insertion) {
         for (size_t i = 0; i < 6; i++)
@@ -118,6 +120,8 @@ namespace utils {
     class Logger {
     public:
         enum logPriority : unsigned short {Debug = 0, Info, Warning, Error, Critical};
+        static unsigned short int DEBUG;
+
     private:
         unsigned short _priority;
         char* _logFilePath;
@@ -127,9 +131,16 @@ namespace utils {
         void _appendToFile(const char* priorityStr, const char* message, Args... args) {
             std::ofstream logFile;
             FILE* pFile;
-            pFile = fopen((const char*) this->_logFilePath, "a+");
 
-            std::fprintf(pFile, "[%s] - %s - ", priorityStr, currentDateTime().c_str());
+            const char* loggingPath;
+            if (Logger::DEBUG)
+                loggingPath = this->_logFilePath;
+            else
+                loggingPath = "TermShooter.log";
+
+            pFile = fopen((const char*) loggingPath, "a+");
+
+            std::fprintf(pFile, "[%s] - %s - %s - ", priorityStr, this->_prefix, currentDateTime().c_str());
 
             std::fprintf(pFile, message, args...);
 
@@ -144,6 +155,14 @@ namespace utils {
             this->_prefix = loggerName;
             this->_logFilePath = logFilePath;
             this->_priority = priority;
+        }
+
+        static void setDebug() {
+            DEBUG = 1;
+        }
+
+        static void unsetDebug() {
+            DEBUG = 0;
         }
 
         void setPriority(unsigned short priority) {
@@ -184,9 +203,7 @@ namespace utils {
             if (this->_priority <= Critical)
                 this->_appendToFile("CRITICAL", message, args...);
         }
-
     };
-
 }
 
 #endif

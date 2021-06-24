@@ -1,7 +1,6 @@
 #include <Windows.h>
 #include <iostream>
 #include <stdlib.h>
-#include <random>
 #include "math.h"
 
 #include "headers/entity.h"
@@ -15,6 +14,7 @@ MobsWave::MobsWave() {
 }
 
 MobsWave::MobsWave(int nCount, Mob* mobs) {
+    this->logger = utils::Logger("MobsWave", "logs/mobswave.log", utils::Logger::Debug);
 
     this->nCount = nCount;
     for (int i = 0; i < nCount; i++)
@@ -33,30 +33,38 @@ bool MobsWave::ended() {
 MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
 
     Mob mobs[3];
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int> ammountDistribution(1,3);
-    unsigned int nMobsAmmount = ammountDistribution(generator);
+    ;
+    unsigned int nMobsAmmount = utils::ourDistribution(1, 4);
     for (size_t i = 0; i < nMobsAmmount; i++) {
-        std::normal_distribution<float> distribution(20 + 10/nMobsAmmount, 3);
-
         // Health Power
         Mob tmpMob;
-        tmpMob.nMaxHealth = (int) distribution(generator) * log(2 * difficulty + 1);
+        int nMin = 15 + 10 / nMobsAmmount;
+        int nMax = 20 + 10 / nMobsAmmount;
+        tmpMob.nMaxHealth = utils::ourDistribution(nMin, nMax) * log(2 * difficulty + 1);
         tmpMob.nHealth = tmpMob.nMaxHealth;
 
         // Spawn Position
         int tmpY, tmpX;
         size_t counter = 0;
         do {
-            std::uniform_int_distribution<int> posDistribution(1, 16);
-            tmpX = posDistribution(generator);
-            tmpY = posDistribution(generator);
+            tmpX = utils::ourDistribution(2, 15);
+            tmpY = utils::ourDistribution(2, 15 - i);
             counter++;
-        } while (map.smap[tmpY * map.nMapWidth + tmpX] == '.' &&
+
+            // Impede mesma posicao que os mobs anteriores
+            if (i > 0) {
+                if (tmpX == mobs[0].pos.x && tmpY == mobs[0].pos.y)
+                    continue;
+                if (i == 2)
+                    if (tmpX == mobs[1].pos.x && tmpY == mobs[1].pos.y)
+                        continue;
+            }
+
+        } while (map.smap[tmpY * map.nMapWidth + tmpX] != '.' &&
             counter < N_MAX_MOB_SPAWN_ATTEMPT);
 
         if (counter >= N_MAX_MOB_SPAWN_ATTEMPT) {
-            tmpX = 8;
+            tmpX = 8 + i;
             tmpY = 6;
         }
 
@@ -64,6 +72,16 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
         tmpMob.pos.y = tmpY;
 
         mobs[i] = tmpMob;
+
+        utils::Logger logger("generateNewWave", "logs/mobswave.log", utils::Logger::Debug);
+        if (tmpX >= map.nMapWidth || tmpY >= map.nMapHeight)
+            logger.error("MOB OUT OF BOUNDS - Mob[%d], posX = %d, posY = %d", i, tmpX, tmpY);
+        else if (map.smap[tmpY * map.nMapWidth + tmpX] == '#')
+            logger.error("MOB INSIDE WALL - Mob[%d], posX = %d, posY = %d", i, tmpX, tmpY);
+        else
+            logger.debug("Mob[%d], posX = %d, posY = %d", i, tmpX, tmpY);
+
+
     }
 
     MobsWave newWave = MobsWave(nMobsAmmount, mobs);

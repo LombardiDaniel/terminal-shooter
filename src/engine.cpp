@@ -298,6 +298,11 @@ void Engine::_overlayMap(Position playerPos) {
         for (unsigned short int y = 0; y < this->map.nMapHeight; y++)
             this->screen[y * this->nScreenWidth + x] = this->map.smap[(this->map.nMapHeight - y - 1) * this->map.nMapWidth + x];
 
+    for (unsigned short int x = 0; x < this->map.nMapWidth; x++)
+        for (unsigned short int y = 0; y < this->map.nMapHeight; y++)
+            if (this->map.smobs[y * this->map.nMapWidth + x] == 'X')
+                this->screen[(int)(this->map.nMapHeight - y - 1) * this->nScreenWidth + (int) x] = 'X';
+
     this->screen[(int)(this->map.nMapHeight - playerPos.y) * this->nScreenWidth + (int) playerPos.x] = 'P';
 }
 
