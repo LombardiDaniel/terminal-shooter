@@ -62,8 +62,8 @@ namespace utils {
 
     template <typename T>
     Queue<T>::Queue() {
-        this->_items = new T[_ALLOC_BLOCK_SIZE];
-        this->_nCurrentSize = _ALLOC_BLOCK_SIZE;
+        this->_items = new T[Queue::_ALLOC_BLOCK_SIZE];
+        this->_nCurrentSize = Queue::_ALLOC_BLOCK_SIZE;
         this->_nEntriesAmmount = 0;
     }
 
@@ -74,7 +74,7 @@ namespace utils {
 
     template <typename T>
     bool Queue<T>::_allocNewBlock() {
-        this->_nCurrentSize += _ALLOC_BLOCK_SIZE;
+        this->_nCurrentSize += Queue::_ALLOC_BLOCK_SIZE;
         this->_items = (T*) realloc(this->_items, this->_nCurrentSize);
 
         return this->_items != NULL;

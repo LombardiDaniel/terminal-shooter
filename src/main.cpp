@@ -27,6 +27,7 @@ int main(int argc, char const *argv[]) {
 
     float fFov = utils::PI / 3.0;
 
+    // The overlays were made with these dimensions in mind, do NOT change
     int nScreenW = 120;
     int nScreenH = 40;
 
@@ -54,7 +55,8 @@ int main(int argc, char const *argv[]) {
 		tp1 = tp2;
 
         engine.updateMobs();
-        // Precisa gerar uma wave nova
+
+        // Adiciona a wave nova (waveQueue herda de Queue)
         if (engine.currentWave.ended())
             waveQueue.pop(engine.currentWave);
 
@@ -65,7 +67,7 @@ int main(int argc, char const *argv[]) {
 
         engine.render(player);
 
-        // if (player.fHealth <= 0)
+        // if (player.fHealth <= 0.f)
         //   break;
     }
 
