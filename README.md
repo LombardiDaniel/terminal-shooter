@@ -42,3 +42,9 @@ Chegando às últimas adições de funcionalidade importantes, conseguimos criar
 - Possível movimentacao
 - Implementar score (90% feito)
 - Possível tela final (mostrar score) e de início (press any button)
+
+
+lines:
+`cpp`: 1087
+`h`: 444
+`git ls-files | grep EXTENSION | xargs wc -l`
