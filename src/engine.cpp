@@ -433,6 +433,42 @@ void Engine::shootFromPlayer(Player& player) {
     }
 }
 
+void Engine::deathScreen(const unsigned int ) {
+
+    std::string youDiedOverlay = this->_createDeathScreen();
+
+    for (unsigned short int x = 0; x < this->nScreenWidth; x++)
+        for (unsigned short int y = 0; y < this->nScreenHeight; y++) {
+            switch (youDiedOverlay[y * this->nScreenWidth + x]) {
+                case 'a':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_A;
+                    break;
+                case 'b':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_B;
+                    break;
+                case 'c':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_C;
+                    break;
+                case 'd':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_D;
+                    break;
+                case 'e':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_E;
+                    break;
+                case 'f':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_F;
+                    break;
+                case 'g':
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_G;
+                    break;
+                default:
+                    this->screen[y * this->nScreenWidth + x] = H_ENDSCREEN_CHAR_DEFAULT;
+            }
+        }
+
+    this->_outputFrame();
+}
+
 void Engine::checkForDamage(Player& player) {
 
     for (size_t i = 0; i < this->currentWave.nCount; i++)
@@ -570,4 +606,75 @@ void Engine::_createMobsHealthBars() {
     this->_3mobsHealthBar += "                                                                                                                        ";
     this->_3mobsHealthBar += "                                                                                                                        ";
     this->_3mobsHealthBar += "                                                                                                                        ";
+}
+
+std::string Engine::_createDeathScreen() {
+
+    std::string tmpScreenOverlay;
+
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                 abb   bba cbbbbb   b    bb    abbbbbd  bbaabbbbb abbbbbd                               ";
+    tmpScreenOverlay += "                                  cbb  bbccbbc  bbc bb  abbc   cbbd bbeabbcab   d cbbd bbe                              ";
+    tmpScreenOverlay += "                                   cbb bbfcbbf  bbcabb  cbbf   fbb   becbbccbbb   fbb   be                              ";
+    tmpScreenOverlay += "                                   f gbbafcbb   bbfaab  fbbf   fabd   efbbfcab  d fabd   e                              ";
+    tmpScreenOverlay += "                                   f bbcaff bbbbacfccbbbbba    fcbbbba fbbffcbbbbcfcbbbba                               ";
+    tmpScreenOverlay += "                                    bbccc f cfcfcf fcac c c     cca  c fa  ff cf f cca  c                               ";
+    tmpScreenOverlay += "                                  abb fcf   f c cf ffcf f f     f c  c  c f f f  f f c  c                               ";
+    tmpScreenOverlay += "                                  c c ff  f f f c   fff f f     f f  f  c f   f    f f  f                               ";
+    tmpScreenOverlay += "                                  f f         f f     f           f     f     f  f   f                                  ";
+    tmpScreenOverlay += "                                  f f                           f                  f                                    ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                          bbbbbb dbbbbd  cbbbbb   bbdbbb  abbbbb                                        ";
+    tmpScreenOverlay += "                                        cbb    ccbbd db cbbc  bbcabb c bbcab   d    bb                                  ";
+    tmpScreenOverlay += "                                        f abbd  cab    dcbbf  bbcabb fdb ccbbb                                          ";
+    tmpScreenOverlay += "                                          c   bbcaad dbbcbb   bbfcbbddbd  cab  d                                        ";
+    tmpScreenOverlay += "                                        cbbbbbbcc abbbd f bbbbacffbba cbbcfcbbbbc   bb                                  ";
+    tmpScreenOverlay += "                                        c cac c f fc c  f cfcfcf f ca fcafff cf f                                       ";
+    tmpScreenOverlay += "                                        f fc  f f f  c    f c cf   fc f cf f f  f                                       ";
+    tmpScreenOverlay += "                                        f  f  f f       f f f c    ff   f    f                                          ";
+    tmpScreenOverlay += "                                              f f f         f f     f        f  f                                       ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+    tmpScreenOverlay += "                                                                                                                        ";
+
+    return tmpScreenOverlay;
+
+}
+
+std::string Engine::_getNumASCII(const unsigned short int num) {
+
+    std::string tmpNumASCII;
+
+    switch (num) {
+        case 0:
+            tmpNumASCII += "_____/\\\\\\\\\\\\\\ ____        ";
+            tmpNumASCII += " ___/\\\\\\/////\\\\\\__       ";
+            tmpNumASCII += "  __/\\\\\\____\\//\\\\\\_      ";
+            tmpNumASCII += "   _\\/\\\\\\_____\\/\\\\\\_     ";
+            tmpNumASCII += "    _\\/\\\\\\_____\\/\\\\\\_    ";
+            tmpNumASCII += "     _\\/\\\\\\_____\\/\\\\\\_   ";
+            tmpNumASCII += "      _\\//\\\\\\____/\\\\\\__  ";
+            tmpNumASCII += "       __\\///\\\\\\\\\\\\\\/___ ";
+            tmpNumASCII += "        ____\\///////_____";
+            break;
+    }
+
+
+    return tmpNumASCII;
 }

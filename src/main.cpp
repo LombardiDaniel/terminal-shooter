@@ -56,7 +56,6 @@ int main(int argc, char const *argv[]) {
 
         engine.updateMobs();
 
-        // Adiciona a wave nova (waveQueue herda de Queue)
         if (engine.currentWave.ended())
             waveQueue.pop(engine.currentWave);
 
@@ -67,11 +66,13 @@ int main(int argc, char const *argv[]) {
 
         engine.render(player);
 
-        // if (player.fHealth <= 0.f)
-        //   break;
+        if (player.fHealth <= 0.f)
+            break;
     }
 
-    // engine.deathScreen(player.score);
+    engine.deathScreen(player.score);
+
+    while (1) {}
 
     return 0;
 }
