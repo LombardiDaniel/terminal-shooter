@@ -26,22 +26,23 @@ Foi desenvolvido um melhor meio de lidar com geração aleatória de elementos n
 
 Chegando às últimas adições de funcionalidade importantes, conseguimos criar um mecanismo de dano que o inimigo causa ao player quando próximo um do outro, essa feature também usa do RNG mencionado anterior para balancear a dificuldade do jogo, de tal modo que o dano de cada inimigo é inversamente proporcional a quantidade de inimigos por round. Também foi adicionado um score básico com base no número de rounds ganhos.
 
+Foi criada uma tela de morte quando o usuário tem sua vida zerada. Foi utilizada uma arte em ASCII para representar números grandes e letras grandes com a escrita "YOU DIED" na parte superior do terminal e o score final do player na parte inferior. Foi utilizado um switch case para checar o valor de cada dígito inteiro obtido do score e a partir desta informação, desenhar o respectivo valor em ASCII.
 
 
-### URGENTE:
+
+### POSSIVEIS ADIÇÕES:
 
 - Implementar Entidades com movimentacao, TAD das entidades.
 - Municao com TAD (fila) e tipos diferentes
 
 ### NAO-URGENTE:
 - Tipos de entidades (95% feito)
-- Animacoes (tiro, hit-effect, morte)
 
 ### Prioridades:
-- Possível dano (90% feito)
+
 - Possível movimentacao
-- Implementar score (90% feito)
-- Possível tela final (mostrar score) e de início (press any button)
+
+- Possível tela de início (press any button)
 
 
 lines:
