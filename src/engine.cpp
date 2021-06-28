@@ -436,13 +436,14 @@ void Engine::shootFromPlayer(Player& player) {
 void Engine::checkForDamage(Player& player) {
 
     for (size_t i = 0; i < this->currentWave.nCount; i++)
-        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
-            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
-                // float damage = 1 * 0.016;
-                float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
-                player.fHealth -= damage;
-                // this->logger.info("Damage Dealt: %f", damage);
-            }
+        if (this->currentWave.mobsObj[i].fHealth > 0)
+            if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
+                utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
+                    // float damage = 1 * 0.016;
+                    float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
+                    player.fHealth -= damage;
+                    // this->logger.info("Damage Dealt: %f", damage);
+                }
 }
 
 void Engine::deathScreen(const unsigned int score) {

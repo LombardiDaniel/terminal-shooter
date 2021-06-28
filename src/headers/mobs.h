@@ -22,6 +22,7 @@ public:
 
     MobsWave();
     MobsWave(int nCount, Mob* mobs);
+
     bool ended();
 
     static MobsWave generateNewWave(int difficulty, Map map);
