@@ -433,7 +433,19 @@ void Engine::shootFromPlayer(Player& player) {
     }
 }
 
-void Engine::deathScreen(const unsigned int ) {
+void Engine::checkForDamage(Player& player) {
+
+    for (size_t i = 0; i < this->currentWave.nCount; i++)
+        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
+            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
+                // float damage = 1 * 0.016;
+                float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
+                player.fHealth -= damage;
+                this->logger.info("Damage Dealt: %f", damage);
+            }
+}
+
+void Engine::deathScreen(const unsigned int score) {
 
     std::string youDiedOverlay = this->_createDeathScreen();
 
@@ -466,20 +478,40 @@ void Engine::deathScreen(const unsigned int ) {
             }
         }
 
+
+    std::string sScore = std::to_string(score);                          // 150 -> "150"
+    std::string cScoreLarge[3];                                          // ["1", "5", "0"] (LARGE)
+    for (unsigned int i = 0; i < 3; i++) {
+        if (score >= 100)
+            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
+        else if (score >= 10 && i > 0)
+            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
+        else if (score >= 1 && i > 1)
+            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
+        else
+            cScoreLarge[i] = this->_getNumLargeASCII(0);
+    }
+
+
+
+    // 18 esq, 18 dir, 0 entre, comeca 4 e sobe 6
+
+    // special (LARGE) chars are 28x9
+    for (unsigned short int x = 0; x < 28; x++)
+        for (unsigned short int y = 0; y < 9; y++)
+            for (size_t i = 0; i < 3; i++) {
+                if (i == 0)
+                    this->screen[(y + 28) * this->nScreenWidth + x + 18] =               cScoreLarge[i][y * 28 + x];
+                else if (i == 1)
+                    this->screen[(y + 28) * this->nScreenWidth + x + 18 + 28 * 1] =      cScoreLarge[i][y * 28 + x];
+                else if (i == 2)
+                    this->screen[(y + 28) * this->nScreenWidth + x + 18 + 28 * 2] =      cScoreLarge[i][y * 28 + x];
+            }
+
+
     this->_outputFrame();
 }
 
-void Engine::checkForDamage(Player& player) {
-
-    for (size_t i = 0; i < this->currentWave.nCount; i++)
-        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
-            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
-                // float damage = 1 * 0.016;
-                float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
-                player.fHealth -= damage;
-                this->logger.info("Damage Dealt: %f", damage);
-            }
-}
 
 void Engine::_createMobsHealthBars() {
     this->_1mobsHealthBar += "                              |.........................................................|                               ";
@@ -657,21 +689,127 @@ std::string Engine::_createDeathScreen() {
 
 }
 
-std::string Engine::_getNumASCII(const unsigned short int num) {
+std::string Engine::_getNumLargeASCII(const unsigned short int num) {
 
     std::string tmpNumASCII;
 
     switch (num) {
         case 0:
-            tmpNumASCII += "_____/\\\\\\\\\\\\\\ ____        ";
-            tmpNumASCII += " ___/\\\\\\/////\\\\\\__       ";
-            tmpNumASCII += "  __/\\\\\\____\\//\\\\\\_      ";
-            tmpNumASCII += "   _\\/\\\\\\_____\\/\\\\\\_     ";
-            tmpNumASCII += "    _\\/\\\\\\_____\\/\\\\\\_    ";
-            tmpNumASCII += "     _\\/\\\\\\_____\\/\\\\\\_   ";
-            tmpNumASCII += "      _\\//\\\\\\____/\\\\\\__  ";
-            tmpNumASCII += "       __\\///\\\\\\\\\\\\\\/___ ";
-            tmpNumASCII += "        ____\\///////_____";
+            tmpNumASCII += "_____/\\\\\\\\\\\\\\ _______________";
+            tmpNumASCII += "____/\\\\\\/////\\\\\\____________";
+            tmpNumASCII += "____/\\\\\\____\\//\\\\\\__________";
+            tmpNumASCII += "____\\/\\\\\\_____\\/\\\\\\_________";
+            tmpNumASCII += "_____\\/\\\\\\_____\\/\\\\\\________";
+            tmpNumASCII += "______\\/\\\\\\_____\\/\\\\\\_______";
+            tmpNumASCII += "_______\\//\\\\\\____/\\\\\\_______";
+            tmpNumASCII += "_________\\///\\\\\\\\\\\\\\/_______";
+            tmpNumASCII += "____________\\///////________";
+            break;
+        case 1:
+            tmpNumASCII += "_________/\\\\\\_______________";
+            tmpNumASCII += "_______/\\\\\\\\\\\\\\_____________";
+            tmpNumASCII += "_______\\/////\\\\\\____________";
+            tmpNumASCII += "____________\\/\\\\\\___________";
+            tmpNumASCII += "_____________\\/\\\\\\__________";
+            tmpNumASCII += "______________\\/\\\\\\_________";
+            tmpNumASCII += "_______________\\/\\\\\\________";
+            tmpNumASCII += "________________\\/\\\\\\_______";
+            tmpNumASCII += "_________________\\///_______";
+            break;
+        case 2:
+            tmpNumASCII += "_____/\\\\\\\\\\\\\\\\\\_____________";
+            tmpNumASCII += "____/\\\\\\///////\\\\\\__________";
+            tmpNumASCII += "____\\///______\\//\\\\\\________";
+            tmpNumASCII += "______________/\\\\\\/_________";
+            tmpNumASCII += "_____________/\\\\\\//_________";
+            tmpNumASCII += "____________/\\\\\\//__________";
+            tmpNumASCII += "___________/\\\\\\//___________";
+            tmpNumASCII += "__________/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__";
+            tmpNumASCII += "__________\\///////////////__";
+            break;
+
+        case 3:
+            tmpNumASCII += "_____/\\\\\\\\\\\\\\\\\\\\____________";
+            tmpNumASCII += "____/\\\\\\///////\\\\\\__________";
+            tmpNumASCII += "____\\///______/\\\\\\__________";
+            tmpNumASCII += "____________/\\\\\\//__________";
+            tmpNumASCII += "____________\\////\\\\\\________";
+            tmpNumASCII += "________________\\//\\\\\\______";
+            tmpNumASCII += "_______/\\\\\\______/\\\\\\_______";
+            tmpNumASCII += "________\\///\\\\\\\\\\\\\\\\\\/______";
+            tmpNumASCII += "___________\\/////////_______";
+            break;
+
+        case 4:
+            tmpNumASCII += "____________/\\\\\\____________";
+            tmpNumASCII += "___________/\\\\\\\\\\___________";
+            tmpNumASCII += "__________/\\\\\\/\\\\\\__________";
+            tmpNumASCII += "_________/\\\\\\/\\/\\\\\\_________";
+            tmpNumASCII += "________/\\\\\\/__\\/\\\\\\________";
+            tmpNumASCII += "_______/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\____";
+            tmpNumASCII += "_______\\///////////\\\\\\//____";
+            tmpNumASCII += "__________________\\/\\\\\\_____";
+            tmpNumASCII += "___________________\\///_____";
+            break;
+
+        case 5:
+            tmpNumASCII += "___/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_________";
+            tmpNumASCII += "___\\/\\\\\\///////////_________";
+            tmpNumASCII += "____\\/\\\\\\___________________";
+            tmpNumASCII += "_____\\/\\\\\\\\\\\\\\\\\\\\\\\\_________";
+            tmpNumASCII += "______\\////////////\\\\\\______";
+            tmpNumASCII += "__________________\\//\\\\\\____";
+            tmpNumASCII += "________/\\\\\\________\\/\\\\\\___";
+            tmpNumASCII += "________\\//\\\\\\\\\\\\\\\\\\\\\\\\\\/___";
+            tmpNumASCII += "__________\\/////////////____";
+            break;
+
+        case 6:
+            tmpNumASCII += "____________/\\\\\\\\\\__________";
+            tmpNumASCII += "_________/\\\\\\\\////__________";
+            tmpNumASCII += "_______/\\\\\\///______________";
+            tmpNumASCII += "______/\\\\\\\\///////\\\\\\_______";
+            tmpNumASCII += "______\\////////////\\\\\\______";
+            tmpNumASCII += "______\\/\\\\\\______\\//\\\\\\_____";
+            tmpNumASCII += "_______\\//\\\\\\______/\\\\\\_____";
+            tmpNumASCII += "_________\\///\\\\\\\\\\\\\\\\\\/_____";
+            tmpNumASCII += "____________\\/////////______";
+            break;
+
+        case 7:
+            tmpNumASCII += "__/\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\__________";
+            tmpNumASCII += " _\\/////////////\\\\\\_________";
+            tmpNumASCII += "______________/\\\\\\/_________";
+            tmpNumASCII += "_____________/\\\\\\/__________";
+            tmpNumASCII += "____________/\\\\\\/___________";
+            tmpNumASCII += "___________/\\\\\\/____________";
+            tmpNumASCII += "__________/\\\\\\/_____________";
+            tmpNumASCII += "_________/\\\\\\/______________";
+            tmpNumASCII += "_________\\///_______________";
+            break;
+
+        case 8:
+            tmpNumASCII += "________/\\\\\\\\\\\\\\\\\\__________";
+            tmpNumASCII += "_______/\\\\\\///////\\\\\\_______";
+            tmpNumASCII += "_______\\/\\\\\\_____\\/\\\\\\______";
+            tmpNumASCII += "________\\///\\\\\\\\\\\\\\\\\\/______";
+            tmpNumASCII += "_________/\\\\\\///////\\\\\\_____";
+            tmpNumASCII += "_________/\\\\\\______\\//\\\\\\___";
+            tmpNumASCII += "_________\\//\\\\\\______/\\\\\\___";
+            tmpNumASCII += "__________\\///\\\\\\\\\\\\\\\\\\/___";
+            tmpNumASCII += "_____________\\/////////____";
+            break;
+
+        case 9:
+            tmpNumASCII += "______/\\\\\\\\\\\\\\\\\\____________";
+            tmpNumASCII += "_____/\\\\\\///////\\\\\\_________";
+            tmpNumASCII += "_____/\\\\\\______\\//\\\\\\_______";
+            tmpNumASCII += "_____\\//\\\\\\_____/\\\\\\\\\\______";
+            tmpNumASCII += "_______\\///\\\\\\\\\\\\\\\\/\\\\\\_____";
+            tmpNumASCII += "_________\\////////\\/\\\\\\_____";
+            tmpNumASCII += "________/\\\\________/\\\\\\_____";
+            tmpNumASCII += "_________\\//\\\\\\\\\\\\\\\\\\\\\\/____";
+            tmpNumASCII += "__________\\///////////______";
             break;
     }
 

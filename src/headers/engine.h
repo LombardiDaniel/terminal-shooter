@@ -79,7 +79,7 @@ private:
     void _overlayMap(Position pos);
     void _createMobsHealthBars();
     std::string _createDeathScreen();
-    std::string _getNumASCII(const unsigned short int num);
+    std::string _getNumLargeASCII(const unsigned short int num);
 
 public:
     float fElapsedTimeMilliSeconds;
