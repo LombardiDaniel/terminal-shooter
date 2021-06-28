@@ -8,10 +8,15 @@
 #include "headers/engine.h"
 #include "headers/utils.h"
 
+#define DEBUG 1
+
 
 int main(int argc, char const *argv[]) {
 
-    utils::Logger::setDebug();
+    if (DEBUG)
+        utils::Logger::setDebug();
+    else
+        utils::Logger::unsetDebug();
 
     if (utils::fileExists("track.wav"))
         PlaySound(TEXT("track.wav"), NULL, SND_LOOP | SND_ASYNC); // Background music
