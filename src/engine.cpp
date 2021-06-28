@@ -436,13 +436,14 @@ void Engine::shootFromPlayer(Player& player) {
 void Engine::checkForDamage(Player& player) {
 
     for (size_t i = 0; i < this->currentWave.nCount; i++)
-        if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
-            utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
-                // float damage = 1 * 0.016;
-                float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
-                player.fHealth -= damage;
-                this->logger.info("Damage Dealt: %f", damage);
-            }
+        if (this->currentWave.mobsObj[i].fHealth > 0)
+            if (utils::modulus(this->currentWave.mobsObj[i].pos.x - player.pos.x) < 1.5 &&
+                utils::modulus(this->currentWave.mobsObj[i].pos.y - player.pos.y) < 1.5) {
+                    // float damage = 1 * 0.016;
+                    float damage = this->currentWave.mobsObj[i].nDamagePerSecond * fElapsedTimeMilliSeconds / 1000;
+                    player.fHealth -= damage;
+                    // this->logger.info("Damage Dealt: %f", damage);
+                }
 }
 
 void Engine::deathScreen(const unsigned int score) {
@@ -479,24 +480,18 @@ void Engine::deathScreen(const unsigned int score) {
         }
 
 
-    this->logger.info("player score = %d", score);
-    std::string sScore = std::to_string(score);                             // 150 -> "150"
-    std::string cScoreLarge[3];                                             // ["1", "5", "0"] (LARGE)
+    this->logger.info("player score = %d", score);          // 150
+    unsigned short int nScore[3];                           // [1, 5, 0]
 
-    if (score >= 100)
-        for (unsigned int i = 0; i < 3; i++)
-            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
-    else if (score >= 10) {
-        cScoreLarge[0] = this->_getNumLargeASCII(0);
-        for (unsigned int i = 0; i < 2; i++)
-            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
-    } else if (score >= 1) {
-        cScoreLarge[0] = this->_getNumLargeASCII(0);
-        cScoreLarge[1] = this->_getNumLargeASCII(0);
-        cScoreLarge[2] = this->_getNumLargeASCII(sScore[0] - 0x30);
-    } else
-        for (unsigned int i = 0; i < 3; i++)
-            cScoreLarge[i] = this->_getNumLargeASCII(0);
+    nScore[0] = (int) score / 100;
+    nScore[1] = (int) (score % 100) / 10;
+    nScore[2] = (int) score % 10;
+    this->logger.info("player dScore = %d, %d, %d", nScore[0], nScore[1], nScore[2]);
+
+    std::string cScoreLarge[3];                             // ["1", "5", "0"] (LARGE)
+
+    for (unsigned int i = 0; i < 3; i++)
+        cScoreLarge[i] = this->_getNumLargeASCII(nScore[i]);
 
 
     // 18 esq, 18 dir, 0 entre, comeca 4 e sobe 6

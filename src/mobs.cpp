@@ -30,6 +30,7 @@ bool MobsWave::ended() {
     return true;
 }
 
+
 int WaveQueue::getDificulty() {
     return this->dificulty;
 }
