@@ -479,6 +479,7 @@ void Engine::deathScreen(const unsigned int score) {
         }
 
 
+    this->logger.info("player score = %d", score);
     std::string sScore = std::to_string(score);                             // 150 -> "150"
     std::string cScoreLarge[3];                                             // ["1", "5", "0"] (LARGE)
 
@@ -491,7 +492,7 @@ void Engine::deathScreen(const unsigned int score) {
             cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
     } else if (score >= 1) {
         cScoreLarge[0] = this->_getNumLargeASCII(0);
-        cScoreLarge[1] = this->_getNumLargeASCII(1);
+        cScoreLarge[1] = this->_getNumLargeASCII(0);
         cScoreLarge[2] = this->_getNumLargeASCII(sScore[0] - 0x30);
     } else
         for (unsigned int i = 0; i < 3; i++)
