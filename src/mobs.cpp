@@ -72,8 +72,8 @@ MobsWave MobsWave::generateNewWave(int difficulty, Map map) {
             counter < N_MAX_MOB_SPAWN_ATTEMPT);
 
         if (counter >= N_MAX_MOB_SPAWN_ATTEMPT) {
-            tmpX = 8 + i;
-            tmpY = 6;
+            tmpX = 5 + i;
+            tmpY = 2;
         }
 
         tmpMob.pos.x = tmpX;

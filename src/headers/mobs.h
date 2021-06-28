@@ -7,6 +7,7 @@
 
 #define N_MAX_MOB_SPAWN_ATTEMPT     0xf00
 
+
 class Mob : public Entity {
 public:
     int nMobHeight;

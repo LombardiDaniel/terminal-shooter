@@ -8,7 +8,7 @@
 #include "headers/engine.h"
 #include "headers/utils.h"
 
-#define DEBUG 1
+#define DEBUG 0
 
 
 int main(int argc, char const *argv[]) {
