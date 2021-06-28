@@ -479,19 +479,23 @@ void Engine::deathScreen(const unsigned int score) {
         }
 
 
-    std::string sScore = std::to_string(score);                          // 150 -> "150"
-    std::string cScoreLarge[3];                                          // ["1", "5", "0"] (LARGE)
-    for (unsigned int i = 0; i < 3; i++) {
-        if (score >= 100)
-            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
-        else if (score >= 10 && i > 0)
-            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
-        else if (score >= 1 && i > 1)
-            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
-        else
-            cScoreLarge[i] = this->_getNumLargeASCII(0);
-    }
+    std::string sScore = std::to_string(score);                             // 150 -> "150"
+    std::string cScoreLarge[3];                                             // ["1", "5", "0"] (LARGE)
 
+    if (score >= 100)
+        for (unsigned int i = 0; i < 3; i++)
+            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
+    else if (score >= 10) {
+        cScoreLarge[0] = this->_getNumLargeASCII(0);
+        for (unsigned int i = 0; i < 2; i++)
+            cScoreLarge[i] = this->_getNumLargeASCII(sScore[i] - 0x30);
+    } else if (score >= 1) {
+        cScoreLarge[0] = this->_getNumLargeASCII(0);
+        cScoreLarge[1] = this->_getNumLargeASCII(1);
+        cScoreLarge[2] = this->_getNumLargeASCII(sScore[0] - 0x30);
+    } else
+        for (unsigned int i = 0; i < 3; i++)
+            cScoreLarge[i] = this->_getNumLargeASCII(0);
 
 
     // 18 esq, 18 dir, 0 entre, comeca 4 e sobe 6
