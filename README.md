@@ -52,6 +52,7 @@ Foi criada uma tela de morte quando o usuário tem sua vida zerada. Foi utilizad
 
 
 lines:
-`cpp`: 1087
-`h`: 444
-`git ls-files | grep EXTENSION | xargs wc -l`
+
+`cpp`: 1339
+
+`h`: 460
