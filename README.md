@@ -3,7 +3,7 @@
 Projeto de Algoritmos e Estruturas de Dados I - Inspirado em Wolfenstein 3D, DOOM e QUAKE.
 
 <p align="center">
-  <img width="700" height="239" src="LOGO.PNG">
+  <img width="700" height="239" src="LOGO.png">
 </p>
 
 make: `mingw32-make`
