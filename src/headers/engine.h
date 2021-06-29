@@ -44,9 +44,9 @@
 #define H_ENDSCREEN_CHAR_B              0xdb
 #define H_ENDSCREEN_CHAR_C              0xb2
 #define H_ENDSCREEN_CHAR_D              0xdf
-#define H_ENDSCREEN_CHAR_E              0xdd
+#define H_ENDSCREEN_CHAR_E              0xdb
 #define H_ENDSCREEN_CHAR_F              0xb0
-#define H_ENDSCREEN_CHAR_G              0xde
+#define H_ENDSCREEN_CHAR_G              0xdb
 #define H_ENDSCREEN_CHAR_DEFAULT        0xff
 
 
